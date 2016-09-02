@@ -9,9 +9,11 @@ public class UI {
         return scanner.nextLine();
     }
     
-    public static Player createPlayer(){
-        Player player=new Player();
+    public static Player createPlayer(Player player, boolean col){
+        player.setColor(col); // sets color
         
+        System.out.print("Set your name: ");
+        player.setName(stringInput());
         return player;
     }
     

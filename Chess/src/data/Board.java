@@ -16,9 +16,9 @@ public class Board {
         }
         
     }
-    
     public Board(Player player){
         this();
+        
     }
     
     

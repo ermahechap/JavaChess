@@ -3,13 +3,15 @@ package data;
 public class Square {
     private int row;
     private int col;
-    private char value;//p
+    private char value;
+    private Piece piece;
 
     public Square(int row, int col, char value) {
         this.row = row;
         this.col = col;
         this.value = value;
     }
+    
     
     
     
@@ -35,6 +37,14 @@ public class Square {
 
     public void setValue(char value) {
         this.value = value;
+    }
+
+    public Piece getPiece() {
+        return piece;
+    }
+
+    public void setPiece(Piece piece) {
+        this.piece = piece;
     }
     
     

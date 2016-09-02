@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Player {
     
     private String name;
-    private boolean colour;// if true, white
+    private boolean color;// if true, white
     private int wins;
     private int looses;
     private static int tie;
@@ -20,12 +20,12 @@ public class Player {
         this.name = name;
     }
 
-    public boolean isColour() {
-        return colour;
+    public boolean isColor() {
+        return color;
     }
 
-    public void setColour(boolean colour) {
-        this.colour = colour;
+    public void setColor(boolean color) {
+        this.color = color;
     }
 
     public int getWins() {
@@ -56,8 +56,16 @@ public class Player {
         return pieces;
     }
 
-    public void setPieces(ArrayList<Piece> pieces) {
-        this.pieces = pieces;
+    public void setPieces(ArrayList<Piece> pieces){
+        if(this.color){
+            
+        }
+        
+        
+        
+        
+        
+        
+        
     }
-    
 }
