@@ -12,9 +12,6 @@ public class Square {
         this.value = value;
     }
     
-    
-    
-    
     public int getRow() {
         return row;
     }

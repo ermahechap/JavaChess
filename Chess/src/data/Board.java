@@ -11,15 +11,12 @@ public class Board {
             for(int j=0;j<8;j++){
                 char box=((i+j)%2==0)?'#':'*';
                 gameBoard[i][j]=new Square(i,j,box);
-                
             }
         }
         
     }
-    public Board(Player player){
+    public Board(Player playerW, Player playerB){
         this();
         
     }
-    
-    
 }

@@ -4,17 +4,11 @@ import data.Board;
 import data.Player;
 
 public class UI {
-    public static String stringInput(){
-        Scanner scanner= new Scanner(System.in);
-        return scanner.nextLine();
-    }
+    private String divisor = "-------------------";
+    private Scanner reader = new Scanner(System.in);
     
-    public static Player createPlayer(Player player, boolean col){
-        player.setColor(col); // sets color
+    private void printBoard(Board board){
         
-        System.out.print("Set your name: ");
-        player.setName(stringInput());
-        return player;
     }
     
 }
