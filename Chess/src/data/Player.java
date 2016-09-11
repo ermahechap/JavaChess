@@ -3,15 +3,6 @@ package data;
 import java.util.ArrayList;
 
 public class Player {
-
-    public static int getTie() {
-        return tie;
-    }
-
-    public static void setTie(int aTie) {
-        tie = aTie;
-    }
-    
     private String name;
     private boolean color;// if true, white
     private int wins;
@@ -19,13 +10,37 @@ public class Player {
     private static int tie;
     private ArrayList<Piece> pieces;
     private ArrayList<Piece> cemetery;
-
+    
     public Player(String name, boolean color) {
         this.name = name;
         this.color = color;
-        
+        createPieces();
     }
     
+    public void createPieces(){
+        pieces = new ArrayList<>();
+        
+        String values;
+        if(color){
+            values="ptcakr";
+        }else{
+            values="PTCAKR";
+        }
+        for(int i=0;i<8;i++)pieces.add(new Pawn(values.charAt(0),false));
+        for(int i=0;i<2;i++)pieces.add(new Rook(values.charAt(1),false));
+        for(int i=0;i<2;i++)pieces.add(new Knight(values.charAt(2),false));
+        for(int i=0;i<2;i++)pieces.add(new Bishop(values.charAt(3),false));
+        pieces.add(new King(values.charAt(4),false));
+        pieces.add(new Queen(values.charAt(5),false));
+    }
+    
+    public static int getTie() {
+        return tie;
+    }
+
+    public static void setTie(int aTie) {
+        tie = aTie;
+    }
     
     public String getName() {
         return name;

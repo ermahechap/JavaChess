@@ -6,9 +6,13 @@ import ui.UI;
 public class Chess {
 
     public static void main(String[] args) {
-        Player playerWhite = new Player();
-        Player playerBlack = new Player();
-        Board board = new Board();
+        gameLoop();
     }
-    
+
+    public static void gameLoop(){
+        Player playerWhite = new Player(UI.readName("Blancas"), true);
+        Player playerBlack  = new Player(UI.readName("Negras"), false);
+        Board board = new Board(playerWhite, playerBlack);
+        UI.printBoard(board);
+    }
 }

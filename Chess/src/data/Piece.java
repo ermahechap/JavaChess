@@ -1,6 +1,6 @@
 package data;
 
-public class Piece {
+public abstract class Piece {
     private char pieceSign;//p=peon,t=torre,c=caballo.....a,r=reina,k=king(rey) - mayusc:Negras
     private boolean moved;
     private int dx[];
