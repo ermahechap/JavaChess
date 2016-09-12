@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class Player {
     private String name;
     private boolean color;// if true, white
-    private int wins;
-    private int looses;
-    private static int tie;
+    private int wins=0;
+    private int looses=0;
+    private static int tie=0;
     private ArrayList<Piece> pieces;
     private ArrayList<Piece> cemetery;
     
@@ -17,7 +17,7 @@ public class Player {
         createPieces();
     }
     
-    public void createPieces(){
+    private void createPieces(){
         pieces = new ArrayList<>();
         
         String values;
@@ -89,5 +89,4 @@ public class Player {
     public void setCemetery(ArrayList<Piece> cemetery) {
         this.cemetery = cemetery;
     }
-    
 }

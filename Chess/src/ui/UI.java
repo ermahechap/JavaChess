@@ -21,5 +21,10 @@ public class UI {
         System.out.println("Ingrese nombre del jugador "+ col);
         return reader.nextLine();
     }
+
+    public static void welcome() {
+        System.out.println(divisor);
+        System.out.println("Bienvenido al juego:!!");
+    }
     
 }
