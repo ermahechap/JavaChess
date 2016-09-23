@@ -26,6 +26,7 @@ public class Player {
         }else{
             values="PTCAKR";
         }
+        //create pieces
         for(int i=0;i<8;i++)pieces.add(new Pawn(values.charAt(0),false));
         for(int i=0;i<2;i++)pieces.add(new Rook(values.charAt(1),false));
         for(int i=0;i<2;i++)pieces.add(new Knight(values.charAt(2),false));

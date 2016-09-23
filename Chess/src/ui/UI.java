@@ -27,4 +27,24 @@ public class UI {
         System.out.println("Bienvenido al juego:!!");
     }
     
+    public static int menu() {
+        System.out.println(divisor);
+        System.out.println("Seleccione una opcion");
+        System.out.println("1. Iniciar juego");
+        System.out.println("2. Salir");
+        return reader.nextInt();
+    }
+    
+    public static String inputMove(Player player) {
+        String playerColor= (player.isColor())?"White":"Black";
+        System.out.println(divisor);
+        System.out.println("Turno del jugador " + player.getName() + " - " + playerColor);
+        System.out.println("Ingrese un movimiento en notación algebraica:");
+        System.out.println("1. Iniciar juego");
+        System.out.println("2. Salir");
+        return reader.nextLine();
+    }
+    
+    
+    
 }
