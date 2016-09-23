@@ -1,6 +1,7 @@
 package businessLogic;
 
 import data.*;
+import java.util.ArrayList;
 import ui.UI;
 
 public class Chess {
@@ -31,8 +32,16 @@ public class Chess {
     public static void gameLoop(){
         Player playerWhite = new Player(UI.readName("Blancas"), true);
         Player playerBlack  = new Player(UI.readName("Negras"), false);
-        Board board = new Board(playerWhite, playerBlack);
-        UI.printBoard(board);
+        
+        boolean flag=true;
+        boolean turn=true;
+        
+        do{
+            ArrayList<ArrayList<Integer>> moveData = UI.inputMove(player);
+            
+            Board board = new Board(playerWhite, playerBlack);
+            UI.printBoard(board);
+        }while (flag);
     }
     
 }
