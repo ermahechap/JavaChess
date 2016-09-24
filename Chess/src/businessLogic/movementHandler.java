@@ -2,12 +2,13 @@ package businessLogic;
 
 import java.util.ArrayList;
 import data.Board;
+import data.Player;
 
 public class movementHandler {
     
     public static boolean isValidMove(Board board, ArrayList<ArrayList<Integer>> moveData){
-        int from[]={moveData.get(0).get(0),moveData.get(0).get(1)};//row,col
-        int to[]={moveData.get(1).get(0),moveData.get(1).get(1)};
+        int from[]=functional.splitDataPair(moveData.get(0));//row,col
+        int to[]=functional.splitDataPair(moveData.get(1));//row,col
         
         if(board.getGameBoard()[from[0]][from[1]].getPiece()==null){
             return false;
@@ -19,10 +20,20 @@ public class movementHandler {
         return false;
     }
     
-    
-    public static Board performMove(board){
-        
+
+    protected static Board performMove(Board board, Player[] player, ArrayList<ArrayList<Integer>> moveData) {
+        int from[]=functional.splitDataPair(moveData.get(0));//row,col
+        int to[]=functional.splitDataPair(moveData.get(1));//row,col
+        return board;
     }
     
+    public boolean isCheck(){
+        //put code here
+        return true;
+    }
     
+    public boolean isCheckMate(){
+        //put code here
+        return true;
+    }
 }

@@ -33,15 +33,22 @@ public class Chess {
         Player player[]= new Player[2];
         player[0]=new Player(UI.readName("Blancas"), true);
         player[1]= new Player(UI.readName("Negras"), false);
+        Board board = new Board(player[0], player[1]);
         
         boolean flag=true;
         int turn=0;
         
         do{
-            Board board = new Board(player[0], player[1]);
-            UI.printBoard(board);
             UI.printCemetery(player[0],player[1]);
+            UI.printBoard(board);
             ArrayList<ArrayList<Integer>> moveData = UI.inputMove(player[turn]);
+            if(movementHandler.isValidMove(board, moveData)){//missing if it is check, checkmate conditions, PUT IT LATER
+                board=movementHandler.performMove(board, player,moveData);
+                if(turn==1)turn=0;//switch turn
+                else turn=1;
+            }else{
+                UI.onInvalidMove();
+            }
         }while (flag);
     }
     

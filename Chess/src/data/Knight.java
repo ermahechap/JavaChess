@@ -20,13 +20,8 @@ public class Knight extends Piece{
                 char pieceFrom=board.getGameBoard()[from[0]][from[1]].getPiece().getPieceSign();
                 char pieceTo=board.getGameBoard()[to[0]][to[1]].getPiece().getPieceSign();
                 
-                if(pieceTo=='\0')return true;
-                
-                if(Character.isLowerCase(pieceFrom) && Character.isLowerCase(pieceTo)){
-                    return false;
-                }else{
-                    return true;
-                }
+                if(board.getGameBoard()[to[0]][to[1]].getPiece()==null)return true; // true if there is no piece in that box
+                return !(Character.isLowerCase(pieceFrom) && Character.isLowerCase(pieceTo));// false if pieces are from the same player
             }
         }
         return false;
