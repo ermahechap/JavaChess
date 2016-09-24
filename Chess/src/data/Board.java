@@ -19,32 +19,28 @@ public class Board {
         this();
         ArrayList<Piece> whitePieces = playerW.getPieces();
         ArrayList<Piece> blackPieces = playerB.getPieces();
-        for(int i=0;i<8;i++){//peones-pawns
-            gameBoard[6][i].setPiece(whitePieces.get(i));
-            gameBoard[1][i].setPiece(blackPieces.get(i));
+        int[] pos={0,0,1,2};
+        for(int i=0;i<16;i++){
+            String whose=whitePieces.get(i).getClass().toString();
+            int r=7,r2=0,c;
+            if(whose.equals("class data.Pawn")){
+                r=6;
+                r2=1;
+                c=pos[0]++;
+            }else if(whose.equals("class data.Rook")){
+                c=pos[1]; pos[1]+=7;
+            }else if(whose.equals("class data.Knight")){
+                c=pos[2];pos[2]+=5;
+            }else if(whose.equals("class data.Bishop")){
+                c=pos[3];pos[3]+=3;
+            }else if(whose.equals("class data.Queen")){
+                c=3;
+            }else{//king
+                c=4;
+            }
+            gameBoard[r][c].setPiece(whitePieces.get(i));
+            gameBoard[r2][c].setPiece(blackPieces.get(i));
         }
-        //rooks - torres
-        gameBoard[7][0].setPiece(whitePieces.get(8));
-        gameBoard[7][7].setPiece(whitePieces.get(9));
-        gameBoard[0][0].setPiece(blackPieces.get(8));
-        gameBoard[0][7].setPiece(blackPieces.get(9));
-        //caballos - knight
-        gameBoard[7][1].setPiece(whitePieces.get(10));
-        gameBoard[7][6].setPiece(whitePieces.get(11));
-        gameBoard[0][1].setPiece(blackPieces.get(10));
-        gameBoard[0][6].setPiece(blackPieces.get(11));
-        //alfiles - bishops
-        gameBoard[7][2].setPiece(whitePieces.get(12));
-        gameBoard[7][5].setPiece(whitePieces.get(13));
-        gameBoard[0][2].setPiece(blackPieces.get(12));
-        gameBoard[0][5].setPiece(blackPieces.get(13));
-        //King
-        gameBoard[7][4].setPiece(whitePieces.get(14));
-        gameBoard[0][4].setPiece(blackPieces.get(14));
-        //Queen
-        gameBoard[7][3].setPiece(whitePieces.get(15));
-        gameBoard[0][3].setPiece(blackPieces.get(15));
-        
     }
 
     public Square[][] getGameBoard() {

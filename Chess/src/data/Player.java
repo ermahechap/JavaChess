@@ -14,6 +14,7 @@ public class Player {
     public Player(String name, boolean color) {
         this.name = name;
         this.color = color;
+        this.cemetery= new ArrayList<>();
         createPieces();
     }
     
@@ -22,10 +23,11 @@ public class Player {
         
         String values;
         if(color){
-            values="ptcakr";
+            values="prnbkq";
         }else{
-            values="PTCAKR";
+            values="PRNBKQ";
         }
+        //create pieces
         for(int i=0;i<8;i++)pieces.add(new Pawn(values.charAt(0),false));
         for(int i=0;i<2;i++)pieces.add(new Rook(values.charAt(1),false));
         for(int i=0;i<2;i++)pieces.add(new Knight(values.charAt(2),false));
