@@ -14,6 +14,10 @@ public class UI {
         System.out.println("Error!!, intente otra vez");
     }
     
+    private static void onDuplicateCoordinate(){
+        System.out.println("Error!!, Cooerdenadas iguales, intente otra vez");
+    }
+    
     public static void printBoard(Board board){
         System.out.println(divisor);
         System.out.println(board.stringBoard());
@@ -52,30 +56,47 @@ public class UI {
         System.out.println(divisor);
     }
     
-    public static ArrayList<Integer> splitCoordinates(String str){
+    private static ArrayList<Integer> splitCoordinates(String str){
         ArrayList<Integer> coord= new ArrayList<>();
         //to set 0,0 as upper left corner
-        coord.add(((int)str.charAt(0))-((int)'A'));
-        coord.add(8-((int)str.charAt(1)));
+        coord.add(8-((int)str.charAt(1)-(int)'0'));//rows first
+        coord.add(((int)str.charAt(0))-((int)'A'));//cols second
         return coord;
+    }
+    
+    private static String coordinateRead(){
+        String moveText=new String();
+        do{
+            moveText= reader.next();
+            if(!(moveText.charAt(0)>='a' && moveText.charAt(0)<='h' && moveText.charAt(1)>='1' && moveText.charAt(1)<='8')){
+                onError();
+            }
+        }while(moveText.charAt(0)>='a' && moveText.charAt(0)<='h' && moveText.charAt(1)>='1' && moveText.charAt(1)<='8');
+        return moveText;
     }
     
     public static ArrayList<ArrayList<Integer>> inputMove(Player player) {
         String playerColor= (player.isColor())?"White":"Black";
-        String moveText=new String();
-        
+        boolean flag=true;
         ArrayList<ArrayList<Integer>> moveCoordinates= new ArrayList<>();
         
-        System.out.println(divisor);
-        System.out.println("Turno del jugador " + player.getName() + " - " + playerColor);
-        System.out.println("Ingrese Coordenadas de la pieza, es decir letra y numero, por");
-        System.out.println("ejemplo ->e4");
-        moveText= reader.next();
-        moveCoordinates.add(splitCoordinates(moveText));
-        
-        System.out.println("Ingrese Coordenadas de destino de la misma forma:");
-        moveText= reader.next();
-        moveCoordinates.add(splitCoordinates(moveText));
+        do{
+            System.out.println(divisor);
+            System.out.println("Turno del jugador " + player.getName() + " - " + playerColor);
+            System.out.println("Ingrese Coordenadas de la pieza, es decir letra y numero, por");
+            System.out.println("ejemplo ->e4");
+            moveCoordinates.add(splitCoordinates(coordinateRead()));
+
+            System.out.println("Ingrese Coordenadas de destino de la misma forma:");
+            moveCoordinates.add(splitCoordinates(coordinateRead()));
+            
+            if(moveCoordinates.get(0).equals(moveCoordinates.get(1))){//to avoid same coordinates input
+                onDuplicateCoordinate();
+                moveCoordinates.clear();
+            }else{
+                flag=false;
+            }
+        }while(flag);
         
         return moveCoordinates;
     }

@@ -12,6 +12,8 @@ public abstract class Piece {
         this.moved = moved;
     }
     
+    public abstract boolean pieceCheck(Board board, int[]from,int[]to);
+    
     public char getPieceSign() {
         return pieceSign;
     }
