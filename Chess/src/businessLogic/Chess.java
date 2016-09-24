@@ -30,17 +30,18 @@ public class Chess {
     }
     
     public static void gameLoop(){
-        Player playerWhite = new Player(UI.readName("Blancas"), true);
-        Player playerBlack  = new Player(UI.readName("Negras"), false);
+        Player player[]= new Player[2];
+        player[0]=new Player(UI.readName("Blancas"), true);
+        player[1]= new Player(UI.readName("Negras"), false);
         
         boolean flag=true;
-        boolean turn=true;
+        int turn=0;
         
         do{
-            ArrayList<ArrayList<Integer>> moveData = UI.inputMove(player);
-            
-            Board board = new Board(playerWhite, playerBlack);
+            Board board = new Board(player[0], player[1]);
             UI.printBoard(board);
+            UI.printCemetery(player[0],player[1]);
+            ArrayList<ArrayList<Integer>> moveData = UI.inputMove(player[turn]);
         }while (flag);
     }
     

@@ -3,6 +3,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 import data.Board;
+import data.Piece;
 import data.Player;
 
 public class UI {
@@ -21,7 +22,7 @@ public class UI {
     public static String readName(String col){
         System.out.println(divisor);
         System.out.println("Ingrese nombre del jugador "+ col);
-        return reader.nextLine();
+        return reader.next();
     }
 
     public static void welcome() {
@@ -35,6 +36,20 @@ public class UI {
         System.out.println("1. Iniciar juego");
         System.out.println("2. Salir");
         return reader.nextInt();
+    }
+    
+    public static void printCemetery(Player w, Player b) {
+        System.out.println(divisor);
+        System.out.println("Cementerio: " );
+        System.out.println("Blancas->" );
+        for (int i=0;i<w.getCemetery().size();i++) {
+            System.out.print(w.getCemetery().get(i).getPieceSign());
+        }
+        System.out.println("Negras->" );
+        for (int i=0;i<b.getCemetery().size();i++) {
+            System.out.print(b.getCemetery().get(i).getPieceSign());
+        }
+        System.out.println(divisor);
     }
     
     public static ArrayList<Integer> splitCoordinates(String str){
@@ -55,11 +70,11 @@ public class UI {
         System.out.println("Turno del jugador " + player.getName() + " - " + playerColor);
         System.out.println("Ingrese Coordenadas de la pieza, es decir letra y numero, por");
         System.out.println("ejemplo ->e4");
-        moveText= reader.nextLine();
+        moveText= reader.next();
         moveCoordinates.add(splitCoordinates(moveText));
         
         System.out.println("Ingrese Coordenadas de destino de la misma forma:");
-        moveText= reader.nextLine();
+        moveText= reader.next();
         moveCoordinates.add(splitCoordinates(moveText));
         
         return moveCoordinates;
