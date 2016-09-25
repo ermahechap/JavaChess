@@ -57,14 +57,15 @@ public class UI {
     public static void printCemetery(Player w, Player b) {
         System.out.println(divisor);
         System.out.println("Cementerio: " );
-        System.out.println("Blancas->" );
+        System.out.print("Blancas->" );
         for (int i=0;i<w.getCemetery().size();i++) {
             System.out.print(w.getCemetery().get(i).getPieceSign());
         }
-        System.out.println("Negras->" );
+        System.out.print("\nNegras->" );
         for (int i=0;i<b.getCemetery().size();i++) {
             System.out.print(b.getCemetery().get(i).getPieceSign());
         }
+        System.out.println("");
     }
 
     private static String coordinateRead(){

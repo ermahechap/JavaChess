@@ -1,8 +1,8 @@
 package data;
 public class King extends Piece {
     
-    public King(char pieceSign, boolean moved) {
-        super(pieceSign, moved);
+    public King(char pieceSign) {
+        super(pieceSign);
         //move matrix
         super.setDx(new int[]{-1,0,1,0,-1,1,1,-1});//rows
         super.setDy(new int[]{0,1,0,-1,1,1,-1,-1});//cols
@@ -20,7 +20,13 @@ public class King extends Piece {
                 char pieceFrom=board.getGameBoard()[from[0]][from[1]].getPiece().getPieceSign();
                 char pieceTo=board.getGameBoard()[to[0]][to[1]].getPiece().getPieceSign();
                 
-                return !(Character.isLowerCase(pieceFrom) && Character.isLowerCase(pieceTo));// false if pieces are from the same player
+                if(Character.isLowerCase(pieceFrom) && Character.isUpperCase(pieceTo)){
+                   return true; 
+                }
+                if(Character.isUpperCase(pieceFrom) && Character.isLowerCase(pieceTo)){
+                    return true;
+                }
+                return false;
             }
         }
         return false;

@@ -2,14 +2,13 @@ package data;
 
 public abstract class Piece {
     private char pieceSign;//p=peon,t=torre,c=caballo.....a,r=reina,k=king(rey) - mayusc:Negras
-    private boolean moved;
+    private boolean moved=false;//default, false
     private int dx[];
     private int dy[];
 
     
-    public Piece(char pieceSign, boolean moved) {
+    public Piece(char pieceSign) {
         this.pieceSign = pieceSign;
-        this.moved = moved;
     }
     
     public abstract boolean pieceCheck(Board board, int[]from,int[]to);

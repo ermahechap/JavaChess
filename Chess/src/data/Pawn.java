@@ -2,8 +2,8 @@ package data;
 
 public class Pawn extends Piece{
     
-    public Pawn(char pieceSign, boolean moved) {
-        super(pieceSign, moved);
+    public Pawn(char pieceSign) {
+        super(pieceSign);
         //note, pawn has an extra move when it eats pieces, matrix also has to change according to its color
         
         if(Character.isLowerCase(pieceSign)){
@@ -32,13 +32,21 @@ public class Pawn extends Piece{
                 
                 if(from[0]+myDx[i]==to[0] && from[1]+myDy[j]==to[1] && j<2){// only standar moves
                     if(board.getGameBoard()[to[0]][to[1]].getPiece()==null)return true; // true if there is no piece in that box
-                    return false; //do the same as the code commented above
+                    return false;
                 }
                 
                 if(from[0]+myDx[i]==to[0] && from[1]+myDy[j]==to[1] && j>=2){// capture move
+                    if(board.getGameBoard()[to[0]][to[1]].getPiece()==null)return false; // false, there is no piece, cannot capture
                     char pieceFrom=board.getGameBoard()[from[0]][from[1]].getPiece().getPieceSign();
                     char pieceTo=board.getGameBoard()[to[0]][to[1]].getPiece().getPieceSign();
-                    return !(Character.isLowerCase(pieceFrom) && Character.isLowerCase(pieceTo));//false if there is a piece of the same color, cant be captured
+                    
+                    if(Character.isLowerCase(pieceFrom) && Character.isUpperCase(pieceTo)){
+                        return true; 
+                    }
+                    if(Character.isUpperCase(pieceFrom) && Character.isLowerCase(pieceTo)){
+                        return true;
+                    }
+                    return false;
                 }
             }
         }
