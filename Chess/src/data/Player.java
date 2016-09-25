@@ -91,4 +91,8 @@ public class Player {
     public void setCemetery(ArrayList<Piece> cemetery) {
         this.cemetery = cemetery;
     }
+    
+    public void addPieceCemetery(Piece cPiece){
+        this.cemetery.add(cPiece);
+    }
 }

@@ -28,16 +28,10 @@ public class Pawn extends Piece{
         for(int i=0;i<myDx.length;i++){
             for(int j=0;j<myDy.length;j++){
                 if(from[0]+myDx[i]<0 || from[0]+myDx[i]>7)continue;
-                if(from[0]+myDy[j]<0 || from[0]+myDy[j]>7)continue;
+                if(from[1]+myDy[j]<0 || from[1]+myDy[j]>7)continue;
                 
                 if(from[0]+myDx[i]==to[0] && from[1]+myDy[j]==to[1] && j<2){// only standar moves
-                    char pieceFrom=board.getGameBoard()[from[0]][from[1]].getPiece().getPieceSign();
-                    char pieceTo=board.getGameBoard()[to[0]][to[1]].getPiece().getPieceSign();
-
-                     if(board.getGameBoard()[to[0]][to[1]].getPiece()==null)return true; // true if there is no piece in that box
-
-//                    if(Character.isLowerCase(pieceFrom) && Character.isLowerCase(pieceTo)) return false;// this happens only, because piece can moe forward if there is a piece blocking path
-//                    else return false;
+                    if(board.getGameBoard()[to[0]][to[1]].getPiece()==null)return true; // true if there is no piece in that box
                     return false; //do the same as the code commented above
                 }
                 

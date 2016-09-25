@@ -5,7 +5,7 @@ import java.util.List;
 import data.Board;
 import data.Piece;
 import data.Player;
-import businessLogic.functional;
+import businessLogic.Functional;
 
 public class UI {
     private static String divisor = "-------------------";
@@ -69,12 +69,15 @@ public class UI {
 
     private static String coordinateRead(){
         String moveText=new String();
+        boolean flag=true; 
         do{
             moveText= reader.next();
-            if(!(moveText.charAt(0)>='a' && moveText.charAt(0)<='h' && moveText.charAt(1)>='1' && moveText.charAt(1)<='8')){
+            if(moveText.charAt(0)>='a' && moveText.charAt(0)<='h' && moveText.charAt(1)>='1' && moveText.charAt(1)<='8'){
+                flag=false;
+            }else{
                 onError();
             }
-        }while(moveText.charAt(0)>='a' && moveText.charAt(0)<='h' && moveText.charAt(1)>='1' && moveText.charAt(1)<='8');
+        }while(flag);
         return moveText;
     }
     
@@ -88,9 +91,9 @@ public class UI {
             System.out.println("Turno del jugador " + player.getName() + " - " + playerColor);
             System.out.println("Ingrese Coordenadas de la pieza, es decir letra y numero, por");
             System.out.println("ejemplo ->e4");
-            moveCoordinates.add(functional.splitCoordinatesString(coordinateRead()));
+            moveCoordinates.add(Functional.splitCoordinatesString(coordinateRead()));
             System.out.println("Ingrese Coordenadas de destino de la misma forma:");
-            moveCoordinates.add(functional.splitCoordinatesString(coordinateRead()));
+            moveCoordinates.add(Functional.splitCoordinatesString(coordinateRead()));
             
             if(moveCoordinates.get(0).equals(moveCoordinates.get(1))){//to avoid same coordinates input
                 onDuplicateCoordinate();

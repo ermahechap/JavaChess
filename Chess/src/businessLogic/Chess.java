@@ -42,8 +42,10 @@ public class Chess {
             UI.printCemetery(player[0],player[1]);
             UI.printBoard(board);
             ArrayList<ArrayList<Integer>> moveData = UI.inputMove(player[turn]);
-            if(movementHandler.isValidMove(board, moveData)){//missing if it is check, checkmate conditions, PUT IT LATER
-                board=movementHandler.performMove(board, player,moveData);
+            if(MovementHandler.isValidMove(board, moveData,turn)){//missing if it is check, checkmate conditions, PUT IT LATER
+                Object boardPlayer[]=MovementHandler.performMove(board, player,moveData);
+                board=(Board) boardPlayer[0];//note: casting is required
+                player=(Player[]) boardPlayer[1];
                 if(turn==1)turn=0;//switch turn
                 else turn=1;
             }else{

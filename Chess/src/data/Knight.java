@@ -14,13 +14,12 @@ public class Knight extends Piece{
         int myDy[] =super.getDy();
         for(int i=0;i<8;i++){
             if(from[0]+myDx[i]<0 || from[0]+myDx[i]>7)continue;
-            if(from[0]+myDy[i]<0 || from[0]+myDy[i]>7)continue;
-            
+            if(from[1]+myDy[i]<0 || from[1]+myDy[i]>7)continue;
             if(from[0]+myDx[i]==to[0] && from[1]+myDy[i]==to[1]){
+                if(board.getGameBoard()[to[0]][to[1]].getPiece()==null)return true; // true if there is no piece in that box
                 char pieceFrom=board.getGameBoard()[from[0]][from[1]].getPiece().getPieceSign();
                 char pieceTo=board.getGameBoard()[to[0]][to[1]].getPiece().getPieceSign();
                 
-                if(board.getGameBoard()[to[0]][to[1]].getPiece()==null)return true; // true if there is no piece in that box
                 return !(Character.isLowerCase(pieceFrom) && Character.isLowerCase(pieceTo));// false if pieces are from the same player
             }
         }
