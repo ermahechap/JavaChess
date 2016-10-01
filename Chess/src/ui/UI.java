@@ -10,6 +10,25 @@ public class UI {
     private static String divisor = "-------------------";
     private static Scanner reader = new Scanner(System.in);
     
+    public static void onWinMessage(Player player){
+        System.out.println(divisor);
+        System.out.println("\tEl jugador " + player.getName() + " ha ganado esta pertida");
+        System.out.println(divisor);
+    }
+    
+    public static void onTieMessage(Player[] player){
+        System.out.println(divisor);
+        System.out.println("\tlos jugadores " + player[0].getName() + "y" + 
+                player[1].getName()+" han empatado");
+        System.out.println(divisor);
+    }
+    
+    public static void onQuitGame(Player player) {
+        System.out.println(divisor);
+        System.out.println("El jugador "+ player.getName() + "se ha retirado del juego");
+        System.out.println(divisor);
+    }
+    
     public static void onError(){
         System.out.println(divisor);
         System.out.println("\tError!!, intente otra vez");
@@ -66,6 +85,14 @@ public class UI {
         }
         System.out.println("");
     }
+    
+    
+    public static void whosePlayer(Player player){
+        String playerColor= (player.isColor())?"White":"Black";
+        System.out.println(divisor);
+        System.out.println("Turno del jugador " + player.getName() + " - " + playerColor);
+    }
+    
 
     private static String coordinateRead(){
         String moveText=new String();
@@ -81,16 +108,14 @@ public class UI {
         return moveText;
     }
     
-    public static ArrayList<ArrayList<Integer>> inputMove(Player player) {
-        String playerColor= (player.isColor())?"White":"Black";
+    public static ArrayList<ArrayList<Integer>> inputMove() {
         boolean flag=true;
         ArrayList<ArrayList<Integer>> moveCoordinates= new ArrayList<>();
         
         do{
             System.out.println(divisor);
-            System.out.println("Turno del jugador " + player.getName() + " - " + playerColor);
-            System.out.println("Ingrese Coordenadas de la pieza, es decir letra y numero, por");
-            System.out.println("ejemplo ->e4");
+            System.out.println("Ingrese Coordenadas de la pieza, es decir letra y numero, por ejemplo ->e4");
+            System.out.println("Nota: Para hacer enroque de coordenada del rey y de la torre");
             moveCoordinates.add(Functional.splitCoordinatesString(coordinateRead()));
             System.out.println("Ingrese Coordenadas de destino de la misma forma:");
             moveCoordinates.add(Functional.splitCoordinatesString(coordinateRead()));
@@ -111,7 +136,7 @@ public class UI {
         //create pieces to return
         ArrayList<Piece> values=new ArrayList<>(Arrays.asList(new Queen(color),
             new Knight(color),new Rook(color),new Bishop(color)));
-        
+        System.out.println(divisor);
         System.out.println("Seleccione pieza que quiere cambiar:");
         System.out.println("1. Queen");
         System.out.println("2. Knight");
@@ -128,6 +153,46 @@ public class UI {
             }
         }
         return returnPiece;
+    }
+
+    public static int movementOptions() {
+        int dataRead;
+        
+        
+        System.out.println(divisor);
+        System.out.println("Seleccione una opcion:");
+        System.out.println("1. Realizar movimiento");
+        System.out.println("2. Mostrar historial de jugadas (notacion LAN)");
+        System.out.println("3. Retirarse");
+        while(true){
+            dataRead=reader.nextInt();
+            if(dataRead>=1 && dataRead<=3){
+                break;
+            }else{
+                onError();
+            }
+        }
+        return dataRead;
+    }
+
+    public static void showPlayHist(Player[] player) {
+        int it=0;
+        System.out.println(divisor);
+        System.out.println("Historial de Jugadas:");
+        System.out.println("   Blancas \tNegras");
+        while (true){
+            System.out.print(it+". ");
+            if(it<player[0].getHistory().size())System.out.print(player[0].getHistory().get(it)+"\t");
+            else System.out.print("        "+"\t");
+            
+            if(it<player[1].getHistory().size())System.out.print(player[1].getHistory().get(it));
+            else System.out.print("        ");
+            System.out.println("");
+            if(it>=player[0].getHistory().size() && it>=player[0].getHistory().size()){
+                break;
+            }
+            it++;
+        }
     }
 
 }

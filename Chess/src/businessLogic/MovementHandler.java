@@ -26,7 +26,6 @@ public class MovementHandler {
         return false;
     }
     
-
     protected static Object[] performMove(Board board, Player[] player, ArrayList<ArrayList<Integer>> moveData) {
         //need to return object and players
         
@@ -46,24 +45,32 @@ public class MovementHandler {
         }
         
         Piece toSet=board.getGameBoard()[from[0]][from[1]].getPiece();
+        Piece originalPiece=toSet;
         
         //PawnPromotion
         char cmp=toSet.getPieceSign();
-        if (cmp=='p' || cmp=='P'){//pawnProm withe
-            int pos=(cmp=='p')?0:(cmp=='P')?7:-1;
-            if(pos==to[0]){
-                toSet.setMoved(false);
-                player[0].getPieces().remove(toSet);
-                player[0].getPieces().add(toSet);
-                toSet=UI.askPromotioPiece((cmp=='p')?true:false);   
-            }
+        int pos=(cmp=='p')?0:(cmp=='P')?7:-1;
+        int who=(Character.isLowerCase(cmp))?0:1;
+        
+        if ((cmp=='p' || cmp=='P') && pos==to[0]){
+            toSet.setMoved(false);
+            player[who].getPieces().remove(toSet);
+
+            toSet=UI.askPromotioPiece((cmp=='p')?true:false);
+            player[who].getPieces().add(toSet);
+
+            player[who].addToHistory(from, to, board.getGameBoard()[from[0]][from[1]].getPiece(),
+                board.getGameBoard()[to[0]][to[1]].getPiece(), toSet);
+        }else{
+            // in case there is no promotion
+            player[who].addToHistory(from, to, board.getGameBoard()[from[0]][from[1]].getPiece(),
+                board.getGameBoard()[to[0]][to[1]].getPiece(), null);
         }
         
-        toSet.setMoved(true);
         
+        toSet.setMoved(true);
         board.getGameBoard()[to[0]][to[1]].setPiece(toSet);//moves piece
         board.getGameBoard()[from[0]][from[1]].setPiece(null);//clears square from
-        
         Object dataReturn[]= {board,player};
         
         return dataReturn;

@@ -15,4 +15,9 @@ public class Functional {
         int coord[]={data.get(0),data.get(1)};
         return coord;
     }
+    
+    public static char toCharCoordinate(int cr){
+        return (char)(cr+((int)'a'));
+    }
+    
 }

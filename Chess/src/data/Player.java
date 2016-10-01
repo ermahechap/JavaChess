@@ -1,25 +1,22 @@
 package data;
 
+import businessLogic.Functional;
 import java.util.ArrayList;
 
 public class Player {
     private String name;
     private boolean color;// if true, white
-    private int wins=0;
-    private int looses=0;
-    private static int tie=0;
-    private ArrayList<Piece> pieces;
-    private ArrayList<Piece> cemetery;
+    private ArrayList<Piece> pieces=new ArrayList<>();
+    private ArrayList<Piece> cemetery= new ArrayList<>();
+    private ArrayList<String>history= new ArrayList<>();
     
     public Player(String name, boolean color) {
         this.name = name;
         this.color = color;
-        this.cemetery= new ArrayList<>();
         createPieces();
     }
     
     private void createPieces(){
-        pieces = new ArrayList<>();
         //create pieces
         for(int i=0;i<8;i++)pieces.add(new Pawn(color));
         for(int i=0;i<2;i++)pieces.add(new Rook(color));
@@ -29,12 +26,24 @@ public class Player {
         pieces.add(new Queen(color));
     }
     
-    public static int getTie() {
-        return tie;
-    }
-
-    public static void setTie(int aTie) {
-        tie = aTie;
+    public void addToHistory(int from[], int to[],Piece pieceFrom, Piece pieceTo, Piece promotionPiece){
+        String toAdd= new String();
+        if(pieceFrom.getPieceSign()!='p' && pieceFrom.getPieceSign()!='P')
+            toAdd+=Character.toUpperCase(pieceFrom.getPieceSign());
+        
+        toAdd+=Functional.toCharCoordinate(from[1]);
+        toAdd+=Integer.toString(8-from[0]);
+        
+        if(pieceTo==null)toAdd+="-";
+        else toAdd+="x";
+        
+        toAdd+=Functional.toCharCoordinate(to[1]);
+        toAdd+=Integer.toString(8-to[0]);
+        
+        if(promotionPiece!=null){
+            toAdd+="=" + Character.toUpperCase(promotionPiece.getPieceSign());
+        }
+        history.add(toAdd);
     }
     
     public String getName() {
@@ -51,22 +60,6 @@ public class Player {
 
     public void setColor(boolean color) {
         this.color = color;
-    }
-
-    public int getWins() {
-        return wins;
-    }
-
-    public void setWins(int wins) {
-        this.wins = wins;
-    }
-
-    public int getLooses() {
-        return looses;
-    }
-
-    public void setLooses(int looses) {
-        this.looses = looses;
     }
 
     public ArrayList<Piece> getPieces() {
@@ -88,4 +81,16 @@ public class Player {
     public void addPieceCemetery(Piece cPiece){
         this.cemetery.add(cPiece);
     }
+
+    public ArrayList<String> getHistory() {
+        return history;
+    }
+
+    public void setHistory(ArrayList<String> history) {
+        this.history = history;
+    }
+
+    
+    
+    
 }

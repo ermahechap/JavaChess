@@ -14,10 +14,11 @@ public class Chess {
     public static void startGame(){
         boolean flag=true;
         do{
+            ManagePlayerTurn.setTurn((byte)0);
             int readValue=UI.menu();
             switch (readValue) {
                 case 1:
-                    gameLoop();
+                    gameLoopLocal();
                     break;
                 case 2:
                     flag=false;
@@ -29,27 +30,40 @@ public class Chess {
         }while(flag);
     }
     
-    public static void gameLoop(){
+    public static void gameLoopLocal(){
         Player player[]= new Player[2];
         player[0]=new Player(UI.readName("Blancas"), true);
         player[1]= new Player(UI.readName("Negras"), false);
         Board board = new Board(player[0], player[1]);
         
         boolean flag=true;
-        int turn=0;
         
         do{
             UI.printCemetery(player[0],player[1]);
             UI.printBoard(board);
-            ArrayList<ArrayList<Integer>> moveData = UI.inputMove(player[turn]);
-            if(MovementHandler.isValidMove(board, moveData,turn)){//missing if it is check, checkmate conditions, PUT IT LATER
-                Object boardPlayer[]=MovementHandler.performMove(board, player,moveData);
-                board=(Board) boardPlayer[0];//note: casting is required, return type is object, need to be board
-                player=(Player[]) boardPlayer[1];
-                if(turn==1)turn=0;//switch turn
-                else turn=1;
+            UI.whosePlayer(player[ManagePlayerTurn.getTurn()]);
+            int opt=UI.movementOptions();
+            if(opt==1){
+                while(true){
+                    ArrayList<ArrayList<Integer>> moveData = UI.inputMove();
+                    if(MovementHandler.isValidMove(board, moveData,ManagePlayerTurn.getTurn())){//missing if it is check, checkmate conditions, PUT IT LATER
+                        Object boardPlayer[]=MovementHandler.performMove(board, player,moveData);
+                        board=(Board) boardPlayer[0];//note: casting is required, return type is object, need to be board
+                        player=(Player[]) boardPlayer[1];
+                        ManagePlayerTurn.changeTurn();
+                        break;
+                    }else{
+                        UI.onInvalidMove();
+                    }
+                }
+            }else if(opt==2){
+                UI.showPlayHist(player);
+            }else if (opt==3){
+                UI.onQuitGame(player[ManagePlayerTurn.getTurn()]); // the player who quits, looses
+                UI.onWinMessage(player[(ManagePlayerTurn.getTurn()+1)%2]); // the next player wins
+                flag=false;
             }else{
-                UI.onInvalidMove();
+                UI.onError();
             }
         }while (flag);
     }
