@@ -52,6 +52,12 @@ public class Chess {
                         player=(Player[]) boardPlayer[1];
                         ManagePlayerTurn.changeTurn();
                         break;
+                    }else if(MovementHandler.canCastle(board, moveData,ManagePlayerTurn.getTurn()) && !MovementHandler.isCheck()){//castling
+                        Object boardPlayer[]=MovementHandler.performCastling(board, player,moveData);
+                        board=(Board) boardPlayer[0];//note: casting is required, return type is object, need to be board
+                        player=(Player[]) boardPlayer[1];
+                        ManagePlayerTurn.changeTurn();
+                        break;
                     }else{
                         UI.onInvalidMove();
                     }

@@ -46,6 +46,10 @@ public class Player {
         history.add(toAdd);
     }
     
+    public void addToHistory(String str){
+        history.add(str);
+    } 
+    
     public String getName() {
         return name;
     }

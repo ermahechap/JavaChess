@@ -195,4 +195,8 @@ public class UI {
         }
     }
 
+    public static void castleFail() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
