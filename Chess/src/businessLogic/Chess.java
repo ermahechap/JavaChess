@@ -44,7 +44,7 @@ public class Chess {
             ArrayList<ArrayList<Integer>> moveData = UI.inputMove(player[turn]);
             if(MovementHandler.isValidMove(board, moveData,turn)){//missing if it is check, checkmate conditions, PUT IT LATER
                 Object boardPlayer[]=MovementHandler.performMove(board, player,moveData);
-                board=(Board) boardPlayer[0];//note: casting is required
+                board=(Board) boardPlayer[0];//note: casting is required, return type is object, need to be board
                 player=(Player[]) boardPlayer[1];
                 if(turn==1)turn=0;//switch turn
                 else turn=1;

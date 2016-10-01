@@ -8,7 +8,6 @@ public class Functional {
         //to set 0,0 as upper left corner
         coord.add(8-((int)str.charAt(1)-(int)'0'));//rows first
         coord.add(((int)str.charAt(0))-((int)'a'));//cols second
-//        System.out.println("->>"+coord.get(0)+" - "+coord.get(1));
         return coord;
     }
     

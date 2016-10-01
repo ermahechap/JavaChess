@@ -2,10 +2,9 @@ package ui;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
-import data.Board;
-import data.Piece;
-import data.Player;
+import data.*;
 import businessLogic.Functional;
+import java.util.Arrays;
 
 public class UI {
     private static String divisor = "-------------------";
@@ -31,7 +30,7 @@ public class UI {
     
     
     public static void printBoard(Board board){
-        System.out.println("\n"+board.stringBoard());
+        System.out.println("\n"+board.toString());
         System.out.println(divisor);
     }
     
@@ -46,7 +45,7 @@ public class UI {
         System.out.println("Bienvenido al juego:!!");
     }
     
-    public static int menu() {
+    public static int menu(){
         System.out.println(divisor);
         System.out.println("Seleccione una opcion");
         System.out.println("1. Iniciar juego");
@@ -105,6 +104,30 @@ public class UI {
         }while(flag);
         
         return moveCoordinates;
+    }
+
+    public static Piece askPromotioPiece(boolean color) {
+        Piece returnPiece;
+        //create pieces to return
+        ArrayList<Piece> values=new ArrayList<>(Arrays.asList(new Queen(color),
+            new Knight(color),new Rook(color),new Bishop(color)));
+        
+        System.out.println("Seleccione pieza que quiere cambiar:");
+        System.out.println("1. Queen");
+        System.out.println("2. Knight");
+        System.out.println("3. Rook");
+        System.out.println("4. Bishop");
+        
+        while(true){
+            int opt=reader.nextInt();
+            if(opt>=1 && opt<=4){
+                returnPiece= values.get(opt-1);
+                break;
+            }else{
+                onError();
+            }
+        }
+        return returnPiece;
     }
 
 }

@@ -46,21 +46,35 @@ public class MovementHandler {
         }
         
         Piece toSet=board.getGameBoard()[from[0]][from[1]].getPiece();
+        
+        //PawnPromotion
+        char cmp=toSet.getPieceSign();
+        if (cmp=='p' || cmp=='P'){//pawnProm withe
+            int pos=(cmp=='p')?0:(cmp=='P')?7:-1;
+            if(pos==to[0]){
+                toSet.setMoved(false);
+                player[0].getPieces().remove(toSet);
+                player[0].getPieces().add(toSet);
+                toSet=UI.askPromotioPiece((cmp=='p')?true:false);   
+            }
+        }
+        
         toSet.setMoved(true);
+        
         board.getGameBoard()[to[0]][to[1]].setPiece(toSet);//moves piece
-        board.getGameBoard()[from[0]][from[1]].setPiece(null);//clears square
+        board.getGameBoard()[from[0]][from[1]].setPiece(null);//clears square from
         
         Object dataReturn[]= {board,player};
         
         return dataReturn;
     }
     
-    protected boolean isCheck(){
+    protected static boolean isCheck(){
         //put code here
         return true;
     }
     
-    protected boolean isCheckMate(){
+    protected static boolean isCheckMate(){
         //put code here
         return true;
     }
