@@ -8,6 +8,10 @@ public class Queen extends Piece{
         super.setDy(new int[]{0,1,0,-1,1,1,-1,-1});//cols
     }
     
+    public Queen(boolean color){
+        this((color)?'q':'Q');
+    }
+    
     @Override
     public boolean pieceCheck(Board board, int[]from,int[]to){
         int myDx[] =super.getDx();

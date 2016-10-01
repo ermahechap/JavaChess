@@ -20,20 +20,13 @@ public class Player {
     
     private void createPieces(){
         pieces = new ArrayList<>();
-        
-        String values;
-        if(color){
-            values="prnbkq";
-        }else{
-            values="PRNBKQ";
-        }
         //create pieces
-        for(int i=0;i<8;i++)pieces.add(new Pawn(values.charAt(0)));
-        for(int i=0;i<2;i++)pieces.add(new Rook(values.charAt(1)));
-        for(int i=0;i<2;i++)pieces.add(new Knight(values.charAt(2)));
-        for(int i=0;i<2;i++)pieces.add(new Bishop(values.charAt(3)));
-        pieces.add(new King(values.charAt(4)));
-        pieces.add(new Queen(values.charAt(5)));
+        for(int i=0;i<8;i++)pieces.add(new Pawn(color));
+        for(int i=0;i<2;i++)pieces.add(new Rook(color));
+        for(int i=0;i<2;i++)pieces.add(new Knight(color));
+        for(int i=0;i<2;i++)pieces.add(new Bishop(color));
+        pieces.add(new King(color));
+        pieces.add(new Queen(color));
     }
     
     public static int getTie() {

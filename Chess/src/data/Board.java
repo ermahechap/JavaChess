@@ -24,8 +24,7 @@ public class Board {
             String whose=whitePieces.get(i).getClass().toString();
             int r=7,r2=0,c;
             if(whose.equals("class data.Pawn")){
-                r=6;
-                r2=1;
+                r=6; r2=1;
                 c=pos[0]++;
             }else if(whose.equals("class data.Rook")){
                 c=pos[1]; pos[1]+=7;
@@ -50,8 +49,9 @@ public class Board {
     public void setGameBoard(Square[][] gameBoard) {
         this.gameBoard = gameBoard;
     }
-
-    public String stringBoard() {
+    
+    @Override
+    public String toString() {
         String rows = new String();
         for(int i=0;i<8;i++){
             rows+=Integer.toString(8-i)+"    ";

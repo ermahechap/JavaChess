@@ -7,7 +7,9 @@ public class Knight extends Piece{
         super.setDx(new int[]{-2,-1,1,2,2,1,-1,-2});//rows
         super.setDy(new int[]{1,2,2,1,-1,-2,-2,-1});//cols
     }
-    
+    public Knight(boolean color){
+        this((color)?'n':'N');
+    }
     @Override
     public boolean pieceCheck(Board board, int[]from,int[]to){
         int myDx[] =super.getDx();

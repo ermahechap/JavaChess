@@ -6,6 +6,11 @@ public class Bishop extends Piece {
         super.setDx(new int[]{-1,1,1,-1});//rows
         super.setDy(new int[]{1,1,-1,-1});//cols
     }
+    
+    public Bishop(boolean color){
+        this((color)?'b':'B');
+    }
+    
     @Override
     public boolean pieceCheck(Board board, int[]from,int[]to){
         int myDx[] =super.getDx();

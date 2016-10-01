@@ -13,6 +13,11 @@ public class Pawn extends Piece{
         }
         super.setDy(new int[]{0,0,1,-1});//last two - eat action
     }
+    
+    public Pawn(boolean color){
+        this((color)?'p':'P');
+    }
+    
     @Override
     public boolean pieceCheck(Board board, int[]from,int[]to){
         if(super.isMoved()==true){//if pawn already moved, just allowed to perform a movement

@@ -8,6 +8,10 @@ public class Rook extends Piece {//torre
         super.setDy(new int[]{0,1,0,-1});//cols
     }
     
+    public Rook(boolean color){
+        this((color)?'r':'R');
+    }
+    
     @Override
     public boolean pieceCheck(Board board, int[]from,int[]to){
         int myDx[] =super.getDx();

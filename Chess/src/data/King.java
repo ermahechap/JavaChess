@@ -7,6 +7,9 @@ public class King extends Piece {
         super.setDx(new int[]{-1,0,1,0,-1,1,1,-1});//rows
         super.setDy(new int[]{0,1,0,-1,1,1,-1,-1});//cols
     }
+    public King(boolean color){
+        this((color)?'k':'K');
+    }
     @Override
     public boolean pieceCheck(Board board, int[]from,int[]to){
         int myDx[] =super.getDx();
