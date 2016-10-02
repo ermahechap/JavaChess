@@ -12,7 +12,7 @@ public class Bishop extends Piece {
     }
     
     @Override
-    public boolean pieceCheck(Board board, int[]from,int[]to){
+    public boolean pieceCheckMove(Board board, int[]from,int[]to){
         int myDx[] =super.getDx();
         int myDy[] =super.getDy();
         

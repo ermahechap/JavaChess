@@ -23,6 +23,26 @@ public class UI {
         System.out.println(divisor);
     }
     
+    
+    public static void onInvalidMoveCheck(Player[] player, byte turn) {
+        System.out.println(divisor);
+        System.out.println("\tEl jugador " + player[turn].getName() + "Está en jaque, " );
+        System.out.println("\tEL movimiento que trata de hacer no lo saca de jaque!!" );
+        System.out.println(divisor);
+    }
+
+    public static void onCheck(Player[] player, byte turn) {
+        System.out.println(divisor);
+        System.out.println("\tEl jugador " + player[turn].getName() + "Está en jaque" );
+        System.out.println(divisor);
+    }
+    
+    public static void checkMate(Player[] player, byte turn) {
+        System.out.println("\tJAQUE MATE");
+        System.out.println("\tEl jugador " + player[turn].getName() + "Ha perdido");
+        System.out.println(divisor);
+    }
+    
     public static void onQuitGame(Player player) {
         System.out.println(divisor);
         System.out.println("El jugador "+ player.getName() + "se ha retirado del juego");
@@ -32,6 +52,20 @@ public class UI {
     public static void onError(){
         System.out.println(divisor);
         System.out.println("\tError!!, intente otra vez");
+        System.out.println(divisor);
+    }
+    
+    public static void messageDrawFifty(Player[] player) {
+        System.out.println(divisor);
+        System.out.println("Empate por 50 movimientos si comer o avanzar peones");
+        System.out.println("\tJudador "+player[0].getName() + " he empatado con " + player[1].getName());
+        System.out.println(divisor);
+    }
+    
+    public static void messageDrawKing(Player[] player){
+        System.out.println(divisor);
+        System.out.println("Empate por ahogar al rey");
+        System.out.println("\tJudador "+player[0].getName() + " he empatado con " + player[1].getName());
         System.out.println(divisor);
     }
     
@@ -193,10 +227,6 @@ public class UI {
             }
             it++;
         }
-    }
-
-    public static void castleFail() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

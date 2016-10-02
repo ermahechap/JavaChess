@@ -1,5 +1,6 @@
 package businessLogic;
 
+import com.sun.org.apache.bcel.internal.generic.GOTO;
 import java.util.ArrayList;
 import data.Board;
 import data.Piece;
@@ -7,6 +8,7 @@ import data.Player;
 import ui.UI;
 
 public class MovementHandler {
+    public static int countRep=0;
     
     protected static boolean isValidMove(Board board, ArrayList<ArrayList<Integer>> moveData,int whichPlayer){
         int from[]=Functional.splitDataPair(moveData.get(0));//row,col
@@ -17,10 +19,10 @@ public class MovementHandler {
         }else{
             Piece piece=board.getGameBoard()[from[0]][from[1]].getPiece();
             if(Character.isLowerCase(piece.getPieceSign()) && whichPlayer==0){
-                return piece.pieceCheck(board,from,to);
+                return piece.pieceCheckMove(board,from,to);
             }
             if(Character.isUpperCase(piece.getPieceSign()) && whichPlayer==1){
-                return piece.pieceCheck(board,from,to);
+                return piece.pieceCheckMove(board,from,to);
             }
         }
         return false;
@@ -57,19 +59,62 @@ public class MovementHandler {
         return true;
     }
     
-    protected static boolean isCheck(){
-        //put code here
+    // just coded 50move repetition, accepted as chess variation with only this rule and stalemate
+    protected static boolean drawFifty(){
+        if(countRep==50){//repetition rule
+            return true;
+        }
         return false;
     }
     
-    protected static boolean isCheckMate(){
-        //put code here
+
+    protected static boolean isCheck(Board board, Player[] player, byte turn){
+        int kingpos[]=new int[2];
+        char cmp;
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if(board.getGameBoard()[i][j].getPiece().getClass().toString().equals("class data.King")){
+                    cmp=board.getGameBoard()[i][j].getPiece().getPieceSign();
+                    int pos=(cmp=='k')?0:1;
+                    if(pos==turn)kingpos[0]=i;kingpos[1]=j;
+                }
+            }
+        }
+        
+        if(turn==0){
+            for(int i=0;i<8;i++){
+                for(int j=0;j<8;j++){
+                    if(Character.isUpperCase(board.getGameBoard()[i][j].getPiece().getPieceSign())){//if turn 0(white), need to compare with black pieces(uppercase)
+                        if(board.getGameBoard()[i][j].getPiece().pieceCheckMove(board, new int[]{i,j}, kingpos))return true;
+                    }
+                }
+            }
+        }else{
+            for(int i=0;i<8;i++){
+                for(int j=0;j<8;j++){
+                    if(Character.isLowerCase(board.getGameBoard()[i][j].getPiece().getPieceSign())){//if turn 1(black), need to compare with white pieces(lowercase)
+                        if(board.getGameBoard()[i][j].getPiece().pieceCheckMove(board, new int[]{i,j}, kingpos))return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    protected static boolean isCheckRemovable(Board board, Player[] player, byte turn){
+        boolean flag=true;
+        //move king
+        
+        
+        //capture piece
+        
+        
+        //block piece
         return false;
     }
     
     protected static Object[] performMove(Board board, Player[] player, ArrayList<ArrayList<Integer>> moveData) {
         //need to return object and players
-
         int from[]=Functional.splitDataPair(moveData.get(0));//row,col
         int to[]=Functional.splitDataPair(moveData.get(1));//row,col
         
@@ -86,7 +131,6 @@ public class MovementHandler {
         }
         
         Piece toSet=board.getGameBoard()[from[0]][from[1]].getPiece();
-        Piece originalPiece=toSet;
         
         //PawnPromotion
         char cmp=toSet.getPieceSign();
@@ -108,7 +152,8 @@ public class MovementHandler {
                 board.getGameBoard()[to[0]][to[1]].getPiece(), null);
         }
         
-        
+        if(cmp=='p' ||cmp=='P' || board.getGameBoard()[to[0]][to[1]].getPiece()!=null)countRep=0;//counter goes zero in case a pawn is moved or piece is captured
+        else countRep++;
         toSet.setMoved(true);
         board.getGameBoard()[to[0]][to[1]].setPiece(toSet);//moves piece
         board.getGameBoard()[from[0]][from[1]].setPiece(null);//clears square from
@@ -145,7 +190,7 @@ public class MovementHandler {
         }
         
         Object dataReturn[]= {board,player};
-        
+        countRep++;//counts as a fifty move rule
         return dataReturn;
     }
 }

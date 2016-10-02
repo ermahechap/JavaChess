@@ -19,7 +19,7 @@ public class Pawn extends Piece{
     }
     
     @Override
-    public boolean pieceCheck(Board board, int[]from,int[]to){
+    public boolean pieceCheckMove(Board board, int[]from,int[]to){
         if(super.isMoved()==true){//if pawn already moved, just allowed to perform a movement
             if(Character.isLowerCase(super.getPieceSign())){
                 super.setDx(new int[]{-1});//blancas

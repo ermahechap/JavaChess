@@ -29,7 +29,6 @@ public class Chess {
             }
         }while(flag);
     }
-    
     public static void gameLoopLocal(){
         Player player[]= new Player[2];
         player[0]=new Player(UI.readName("Blancas"), true);
@@ -39,6 +38,20 @@ public class Chess {
         boolean flag=true;
         
         do{
+            //onDraw
+            if(MovementHandler.drawFifty()){
+                UI.messageDrawFifty(player);
+                break;
+            }
+            
+            //onCheck
+            if(MovementHandler.isCheck(board,player,ManagePlayerTurn.getTurn())){
+                UI.onCheck(player,ManagePlayerTurn.getTurn());
+                if(!MovementHandler.isCheckRemovable(board,player,ManagePlayerTurn.getTurn())){
+                    UI.checkMate(player,ManagePlayerTurn.getTurn());
+                    break;
+                }
+            }
             UI.printCemetery(player[0],player[1]);
             UI.printBoard(board);
             UI.whosePlayer(player[ManagePlayerTurn.getTurn()]);
@@ -48,11 +61,17 @@ public class Chess {
                     ArrayList<ArrayList<Integer>> moveData = UI.inputMove();
                     if(MovementHandler.isValidMove(board, moveData,ManagePlayerTurn.getTurn())){//missing if it is check, checkmate conditions, PUT IT LATER
                         Object boardPlayer[]=MovementHandler.performMove(board, player,moveData);
+                        
+                        if(MovementHandler.isCheck((Board) boardPlayer[0],(Player[]) boardPlayer[1],ManagePlayerTurn.getTurn())){//in case the move put the king in check
+                            UI.onInvalidMoveCheck(player,ManagePlayerTurn.getTurn());
+                            break;
+                        }
+                        //if king is not in check, then we proceed to assign the genrated board to the current board.
                         board=(Board) boardPlayer[0];//note: casting is required, return type is object, need to be board
                         player=(Player[]) boardPlayer[1];
                         ManagePlayerTurn.changeTurn();
                         break;
-                    }else if(MovementHandler.canCastle(board, moveData,ManagePlayerTurn.getTurn()) && !MovementHandler.isCheck()){//castling
+                    }else if(MovementHandler.canCastle(board, moveData,ManagePlayerTurn.getTurn()) && !MovementHandler.isCheck(board,player,ManagePlayerTurn.getTurn())){//castling
                         Object boardPlayer[]=MovementHandler.performCastling(board, player,moveData);
                         board=(Board) boardPlayer[0];//note: casting is required, return type is object, need to be board
                         player=(Player[]) boardPlayer[1];
