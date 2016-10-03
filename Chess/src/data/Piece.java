@@ -1,17 +1,22 @@
 package data;
 
+import java.util.ArrayList;
+
 public abstract class Piece {
     private char pieceSign;//p=peon,t=torre,c=caballo.....a,r=reina,k=king(rey) - mayusc:Negras
     private boolean moved=false;//default, false
     private int dx[];
     private int dy[];
-
+    private ArrayList<int[]> lastMovePath= new ArrayList<>();
     
     public Piece(char pieceSign) {
         this.pieceSign = pieceSign;
     }
     
-    public abstract boolean pieceCheckMove(Board board, int[]from,int[]to);
+    public abstract boolean pieceVerifyMove(Board board, int[]from,int[]to);
+    public void addMovePath(int coord[]){
+        lastMovePath.add(coord);
+    }
     
     public char getPieceSign() {
         return pieceSign;
@@ -44,4 +49,14 @@ public abstract class Piece {
     public void setDy(int[] dy) {
         this.dy = dy;
     }
+
+    public ArrayList<int[]> getLastMovePath() {
+        return lastMovePath;
+    }
+
+    public void setLastMovePath(ArrayList<int[]> lastMovePath) {
+        this.lastMovePath = lastMovePath;
+    }
+
+    
 }

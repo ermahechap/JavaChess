@@ -1,4 +1,7 @@
 package data;
+
+import java.util.ArrayList;
+
 public class Rook extends Piece {//torre
     
     public Rook(char pieceSign) {
@@ -13,7 +16,7 @@ public class Rook extends Piece {//torre
     }
     
     @Override
-    public boolean pieceCheckMove(Board board, int[]from,int[]to){
+    public boolean pieceVerifyMove(Board board, int[]from,int[]to){
         int myDx[] =super.getDx();
         int myDy[] =super.getDy();
         
@@ -37,6 +40,7 @@ public class Rook extends Piece {//torre
     }
     
     private boolean dfs(Board board,Piece sourceP, int[]from,int[]to,int x,int y){  //not really a dfs, just a clever recursion
+        super.setLastMovePath(new ArrayList<>());//clear path
         while(true){
             if(from[0]+x<0 || from[0]+x>7)break;
             if(from[1]+y<0 || from[1]+y>7)break;
@@ -55,7 +59,7 @@ public class Rook extends Piece {//torre
             }
             
             if(board.getGameBoard()[from[0]+x][from[1]+y].getPiece()!=null)break;
-            
+            addMovePath(new int[]{from[0],from[1]});
             from[0]+=x;
             from[1]+=y;
             return dfs(board,sourceP,from,to,x,y);//recursion 

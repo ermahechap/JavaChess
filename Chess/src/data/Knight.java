@@ -1,4 +1,7 @@
 package data;
+
+import java.util.ArrayList;
+
 public class Knight extends Piece{    
 
     public Knight(char pieceSign) {
@@ -11,7 +14,8 @@ public class Knight extends Piece{
         this((color)?'n':'N');
     }
     @Override
-    public boolean pieceCheckMove(Board board, int[]from,int[]to){
+    public boolean pieceVerifyMove(Board board, int[]from,int[]to){
+        super.setLastMovePath(new ArrayList<>());//clear path
         int myDx[] =super.getDx();
         int myDy[] =super.getDy();
         for(int i=0;i<8;i++){
@@ -31,6 +35,7 @@ public class Knight extends Piece{
                 }
                 return false;
             }
+            addMovePath(new int[]{from[0],from[1]});
         }
         return false;
     }
