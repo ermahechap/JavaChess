@@ -88,10 +88,8 @@ public class MovementHandler {
     
     // just coded 50move repetition, accepted as chess variation with only this rule and stalemate
     protected static boolean drawFifty(){
-        if(countRep==50){//repetition rule
-            return true;
-        }
-        return false;
+        //repetition rule
+        return countRep>=50;
     }
     
     
