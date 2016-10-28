@@ -1,8 +1,9 @@
 package data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Knight extends Piece{    
+public class Knight extends Piece implements Serializable{    
 
     public Knight(char pieceSign) {
         super(pieceSign);

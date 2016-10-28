@@ -1,6 +1,8 @@
 package data;
 
-public class Square {
+import java.io.Serializable;
+
+public class Square implements Serializable{
     private int row;
     private int col;
     private char value;

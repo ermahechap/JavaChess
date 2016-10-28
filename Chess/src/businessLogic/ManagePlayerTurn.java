@@ -1,6 +1,4 @@
 package businessLogic;
-import data.Piece;
-import java.util.ArrayList;
 
 public class ManagePlayerTurn {
     private static int turn=0;

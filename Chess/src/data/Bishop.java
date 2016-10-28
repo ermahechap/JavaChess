@@ -1,8 +1,9 @@
 package data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Bishop extends Piece {
+public class Bishop extends Piece implements Serializable{
     public Bishop(char pieceSign) {
         super(pieceSign);
         super.setDx(new int[]{-1,1,1,-1});//rows

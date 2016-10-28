@@ -30,17 +30,17 @@ public class MovementHandler {
         return kingpos;
     }
     
+    protected static boolean isFromEmpty(Board board, int from[]){
+        return board.getGameBoard()[from[0]][from[1]].getPiece()==null;
+    }
+    
     protected static boolean isValidMove(Board board,int from[], int to[],int whichPlayer){
-        if(board.getGameBoard()[from[0]][from[1]].getPiece()==null){
-            return false;
-        }else{
-            Piece piece=board.getGameBoard()[from[0]][from[1]].getPiece();
-            if(Character.isLowerCase(piece.getPieceSign()) && whichPlayer==0){
-                return piece.pieceVerifyMove(board,from,to);
-            }
-            if(Character.isUpperCase(piece.getPieceSign()) && whichPlayer==1){
-                return piece.pieceVerifyMove(board,from,to);
-            }
+        Piece piece=board.getGameBoard()[from[0]][from[1]].getPiece();
+        if(Character.isLowerCase(piece.getPieceSign()) && whichPlayer==0){
+            return piece.pieceVerifyMove(board,from,to);
+        }
+        if(Character.isUpperCase(piece.getPieceSign()) && whichPlayer==1){
+            return piece.pieceVerifyMove(board,from,to);
         }
         return false;
     }

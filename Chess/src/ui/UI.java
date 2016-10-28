@@ -3,7 +3,9 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import data.*;
 import businessLogic.Functional;
+import java.io.File;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 
 public class UI {
     private static String divisor = "-------------------";
@@ -11,7 +13,7 @@ public class UI {
     
     public static void onWinMessage(Player player){
         System.out.println(divisor);
-        System.out.println("\tEl jugador " + player.getName() + " ha ganado esta pertida");
+        System.out.println("\tEl jugador " + player.getName() + " ha ganado esta partida");
         System.out.println(divisor);
     }
     
@@ -54,9 +56,11 @@ public class UI {
         System.out.println(divisor);
     }
     
-    public static void onError(){
+    public static void onError(String errorMessage){
         System.out.println(divisor);
-        System.out.println("\tError!!, intente otra vez");
+        System.out.println("\tError!!");
+        System.out.println("\t"+errorMessage);
+        System.out.println("\t Intente otra vez");
         System.out.println(divisor);
     }
     
@@ -105,10 +109,26 @@ public class UI {
     
     public static int menu(){
         System.out.println(divisor);
-        System.out.println("Seleccione una opcion");
-        System.out.println("1. Iniciar juego");
-        System.out.println("2. Salir");
-        return reader.nextInt();
+        String opt;
+        int out;
+        while(true){
+            System.out.println("Seleccione una opcion");
+            System.out.println("1. Nuevo Juego");
+            System.out.println("2. Cargar Juego");
+            System.out.println("3. Salir");
+            try{
+                opt=reader.next();
+                out=Integer.parseInt(opt);
+                if(out>=1 && out<=3){
+                    break;
+                }else{
+                    onError("Opcion no valida");
+                }
+            }catch(NumberFormatException e){
+                onError("Se espera valor numerico");
+            }
+        }
+        return out;
     }
     
     public static void printCemetery(Player w, Player b) {
@@ -133,18 +153,23 @@ public class UI {
     }
     
 
-    private static String coordinateRead(){
-        String moveText=new String();
+    public static String coordinateRead(){
+        String coord=new String();
         boolean flag=true; 
         do{
-            moveText= reader.next();
-            if(moveText.charAt(0)>='a' && moveText.charAt(0)<='h' && moveText.charAt(1)>='1' && moveText.charAt(1)<='8'){
+            coord= reader.next();
+            if(coord.length()!=2){
+                onError("Ingrese una coordenada valida, es decir letra y número");
+                continue;
+            }
+            coord=coord.toLowerCase();
+            if(coord.charAt(0)>='a' && coord.charAt(0)<='h' && coord.charAt(1)>='1' && coord.charAt(1)<='8'){
                 flag=false;
             }else{
-                onError();
+                onError("Coordenedas Incorrectas o fuera del limite");
             }
         }while(flag);
-        return moveText;
+        return coord;
     }
     
     public static ArrayList<ArrayList<Integer>> inputMove() {
@@ -172,46 +197,56 @@ public class UI {
 
     public static Piece askPromotioPiece(boolean color) {
         Piece returnPiece;
-        //create pieces to return
+        String opt;
+        int out;
         ArrayList<Piece> values=new ArrayList<>(Arrays.asList(new Queen(color),
             new Knight(color),new Rook(color),new Bishop(color)));
-        System.out.println(divisor);
-        System.out.println("Seleccione pieza que quiere cambiar:");
-        System.out.println("1. Queen");
-        System.out.println("2. Knight");
-        System.out.println("3. Rook");
-        System.out.println("4. Bishop");
-        
         while(true){
-            int opt=reader.nextInt();
-            if(opt>=1 && opt<=4){
-                returnPiece= values.get(opt-1);
-                break;
-            }else{
-                onError();
+            System.out.println(divisor);
+            System.out.println("Seleccione pieza que quiere cambiar:");
+            System.out.println("1. Queen");
+            System.out.println("2. Knight");
+            System.out.println("3. Rook");
+            System.out.println("4. Bishop");
+            try{
+                opt=reader.next();
+                out=Integer.parseInt(opt);
+                if(out>=1 && out<=4){
+                    returnPiece= values.get(out-1);
+                    break;
+                }else{
+                    onError("Opcion no listada");
+                }
+            }catch (NumberFormatException e){
+                onError("Se espera valor numerico");
             }
         }
         return returnPiece;
     }
 
     public static int movementOptions() {
-        int dataRead;
-        
-        
-        System.out.println(divisor);
-        System.out.println("Seleccione una opcion:");
-        System.out.println("1. Realizar movimiento");
-        System.out.println("2. Mostrar historial de jugadas (notacion LAN)");
-        System.out.println("3. Retirarse");
+        int out;
+        String opt;
         while(true){
-            dataRead=reader.nextInt();
-            if(dataRead>=1 && dataRead<=3){
-                break;
-            }else{
-                onError();
+            System.out.println(divisor);
+            System.out.println("Seleccione una opcion:");
+            System.out.println("1. Realizar movimiento");
+            System.out.println("2. Mostrar historial de jugadas (notacion LAN)");
+            System.out.println("3. Guardar juego");
+            System.out.println("4. Retirarse");
+            try{
+                opt=reader.next();
+                out=Integer.parseInt(opt);
+                if(out>=1 && out<=4){
+                    break;
+                }else{
+                    onError("Opcion no listada");
+                }
+            }catch(NumberFormatException e){
+                onError("Se espera valor numerico");
             }
         }
-        return dataRead;
+        return out;
     }
 
     public static void showPlayHist(Player[] player) {
@@ -232,6 +267,90 @@ public class UI {
             }
             it++;
         }
+    }
+    
+     private static boolean overWriteMessage(String fileName) {
+        String opt;
+        int out;
+        System.out.println("\tVa a sobreescribir el archivo"+ fileName+ ",desea hacerlo?");
+        System.out.println("1. Si");
+        System.out.println("2. No");
+        boolean flag=true;
+        do{
+            try{
+                opt=reader.next();
+                out=Integer.parseInt(opt);
+                if(out==1){
+                    return true;
+                }else if(out==2){
+                    return false;
+                }else{
+                    onError("Opción no listada");
+                }
+            }catch(NumberFormatException e){
+                UI.onError("Se espera un valor numerico");
+            }
+        }while(flag);
+        return false;
+    }
+
+    public static String saveGameRequest(){
+        String path = new String();
+        while(true){
+            System.out.println(divisor);
+            System.out.println("Ingrese dirección de la carpeta en donde se va a guardar el archivo:");
+            path=reader.next();
+            if(path.charAt(path.length()-1)!='\\')path+="\\";
+            
+            File dir = new File(path);
+            
+            if (dir.exists() && dir.isDirectory()) {
+                System.out.println("Ingrese nombre del archivo: ");
+                path+=reader.next()+".chess";
+                dir=new File(path);
+                if(dir.exists()){
+                    if(overWriteMessage(path))break;
+                }else{
+                    break;
+                }
+            }else{
+                onError("La dirección es incorrecta, debe ingresar solo la dirección de LA CARPETA");
+            }
+        }
+        
+        return path;
+    }
+
+    public static String loadGameRequest() {
+        System.out.println(divisor);
+        System.out.println("Ingrese la dirección del archivo (Ej: C:\\archivo.chess)");
+        System.out.println("Nota: Puede ser otra extensión, siempre que el archivo sea compatible. ");
+        String fileName=reader.next();
+        return fileName;
+    }
+
+    public static void onSaveSuceed() {
+        System.out.println(divisor);
+        System.out.println("\t Se ha guardado la partida Exitosamente");
+        System.out.println(divisor);
+    }
+
+    public static void onSaveFailure() {
+        System.out.println(divisor);
+        System.out.println("\t No se ha guardado la partida.");
+        System.out.println(divisor);
+    }
+
+    public static void onLoadFailure() {
+        System.out.println(divisor);
+        System.out.println("\t No se puede cargar la partida, nueva partida iniciada");
+        System.out.println(divisor);
+    }
+    
+    public static void onLoadSuceed() {
+        System.out.println(divisor);
+        System.out.println("\t Carga realizada correctamente!");
+        System.out.println(divisor);
     }
 
 }

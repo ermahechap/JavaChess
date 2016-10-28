@@ -1,9 +1,10 @@
 package data;
 
 import businessLogic.Functional;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Serializable{
     private String name;
     private boolean color;// if true, white
     private ArrayList<Piece> pieces=new ArrayList<>();
