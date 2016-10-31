@@ -6,14 +6,14 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import ui.UI;
+import ui.UIText;
 
 public class Chess {
     private static Player player[]= new Player[2];
     private static Board board;
     
     public static void main(String[] args) {
-        UI.welcome();
+        UIText.welcome();
         startGame();
     }
 
@@ -21,7 +21,7 @@ public class Chess {
         boolean flag=true;
         do{
             ManagePlayerTurn.setTurn(0);
-            int readValue=UI.menu();
+            int readValue=UIText.menu();
             switch (readValue) {
                 case 1://new game
                     newGame();
@@ -35,19 +35,19 @@ public class Chess {
                     flag=false;
                     break;
                 default:
-                    UI.onError("Opcion no listada");
+                    UIText.onError(0);
                     break;
             }
         }while(flag);
     }
     
     private static void newGame(){
-        player[0]=new Player(UI.readName("Blancas"), true);
-        player[1]= new Player(UI.readName("Negras"), false);
+        player[0]=new Player(UIText.readName("Blancas"), true);
+        player[1]= new Player(UIText.readName("Negras"), false);
         board = new Board(player[0], player[1]);
     }
     private static void loadGame(){
-        String filePath=UI.loadGameRequest();
+        String filePath=UIText.loadGameRequest();
         try {
             FileInputStream fileIn= new FileInputStream(filePath);
             ObjectInputStream os = new ObjectInputStream(fileIn);
@@ -56,15 +56,15 @@ public class Chess {
             ManagePlayerTurn.setTurn(os.readInt());
             board=(Board)os.readObject();
             os.close();
-            UI.onLoadSuceed();
+            UIText.onLoadSuceed();
         } catch (Exception e) {
-            UI.onLoadFailure();
+            UIText.onLoadFailure();
             newGame();
         }
     }
     
     private static void saveGame(){
-        String fileName=UI.saveGameRequest();
+        String fileName=UIText.saveGameRequest();
         try {
             FileOutputStream fileOut= new FileOutputStream(fileName,false);
             ObjectOutputStream os = new ObjectOutputStream(fileOut);
@@ -74,9 +74,9 @@ public class Chess {
             os.writeInt(ManagePlayerTurn.getTurn());
             os.writeObject(board);
             os.close();
-            UI.onSaveSuceed();
+            UIText.onSaveSuceed();
         } catch (Exception ex) {
-            UI.onSaveFailure();
+            UIText.onSaveFailure();
         }
     }
     
@@ -84,43 +84,43 @@ public class Chess {
         boolean flag=true;
         
         do{
-            UI.printCemetery(player[0],player[1]);
-            UI.printBoard(board);
-            UI.whosePlayer(player[ManagePlayerTurn.getTurn()]);
+            UIText.printCemetery(player[0],player[1]);
+            UIText.printBoard(board);
+            UIText.whosePlayer(player[ManagePlayerTurn.getTurn()]);
             
             //onCheck
             if(MovementHandler.isCheck(board,player,ManagePlayerTurn.getTurn())){
                 if(!MovementHandler.isCheckRemovable(board,player,ManagePlayerTurn.getTurn())){
-                    UI.checkMate(player,ManagePlayerTurn.getTurn());
+                    UIText.checkMate(player,ManagePlayerTurn.getTurn());
                     break;
                 }
-                UI.onCheck(player,ManagePlayerTurn.getTurn());
+                UIText.onCheck(player,ManagePlayerTurn.getTurn());
             }
             
             //onDraw
             if(MovementHandler.drawFifty()){
-                UI.messageDrawFifty(player);
+                UIText.messageDrawFifty(player);
                 break;
             }
             //saltemate draw
             if(MovementHandler.isKingStalemate(board, player, ManagePlayerTurn.getTurn())){
-                UI.messageStalemate();
+                UIText.messageStalemate();
                 break;
             }
-            int opt=UI.movementOptions();
+            int opt=UIText.movementOptions();
             
             switch (opt) {
                 case 1:
                     while(true){
-                        ArrayList<ArrayList<Integer>> moveData = UI.inputMove();
+                        ArrayList<ArrayList<Integer>> moveData = UIText.inputMove();
                         if(MovementHandler.isFromEmpty(board, Functional.splitDataPair(moveData.get(0)))){
-                            UI.onError("No hay pieza en la posición inicial");
+                            UIText.onError(1);
                             break;
                         }
                         if(MovementHandler.isValidMove(board, moveData,ManagePlayerTurn.getTurn())){
                             Object boardPlayer[]=MovementHandler.performMove(board, player,moveData);
                             if(MovementHandler.isCheck((Board) boardPlayer[0],(Player[]) boardPlayer[1],ManagePlayerTurn.getTurn())){//in case the move put the king in check
-                                UI.onInvalidMoveCheck(player,ManagePlayerTurn.getTurn());
+                                UIText.onInvalidMoveCheck(player,ManagePlayerTurn.getTurn());
                                 break;
                             }
                             //if king is not in check, then we proceed to assign the genrated board to the current board.
@@ -136,22 +136,22 @@ public class Chess {
                             ManagePlayerTurn.changeTurn();
                             break;
                         }else{
-                            UI.onInvalidMove();
+                            UIText.onInvalidMove();
                         }
                     }   break;
                 case 2:
-                    UI.showPlayHist(player);
+                    UIText.showPlayHist(player);
                     break;
                 case 3:
                     saveGame();
                     break;
                 case 4:
-                    UI.onQuitGame(player[ManagePlayerTurn.getTurn()]); // the player who quits, looses
-                    UI.onWinMessage(player[(ManagePlayerTurn.getTurn()+1)%2]); // the next player wins
+                    UIText.onQuitGame(player[ManagePlayerTurn.getTurn()]); // the player who quits, looses
+                    UIText.onWinMessage(player[(ManagePlayerTurn.getTurn()+1)%2]); // the next player wins
                     flag=false;
                     break;
                 default:
-                    UI.onError("Opción no listada, intente nuevamente");
+                    UIText.onError(0);
                     break;
             }
         }while (flag);

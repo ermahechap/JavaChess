@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import data.Board;
 import data.Piece;
 import data.Player;
-import ui.UI;
+import ui.UIText;
 
 public class MovementHandler {
     private static int countRep=0;
@@ -82,7 +82,6 @@ public class MovementHandler {
                 if(board.getGameBoard()[from[0]][i].getPiece()!=null)return false;
             }
         }
-        System.out.println("PASSED");
         return true;
     }
     
@@ -232,7 +231,7 @@ public class MovementHandler {
             toSet.setMoved(false);
             player[who].getPieces().remove(toSet);
 
-            toSet=UI.askPromotioPiece((cmp=='p')?true:false);
+            toSet=UIText.askPromotioPiece((cmp=='p')?true:false);
             player[who].getPieces().add(toSet);
 
             player[who].addToHistory(from, to, board.getGameBoard()[from[0]][from[1]].getPiece(),
