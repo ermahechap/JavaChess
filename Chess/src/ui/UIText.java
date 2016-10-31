@@ -13,106 +13,110 @@ public class UIText implements UI{
     
     private static String messages[]= new String[]{"Opcion no listada","No hay pieza en la posición inicial"
             ,"Se espera valor numerico","Ingrese una coordenada valida, es decir letra y número"
-            ,"Coordenedas Incorrectas o fuera del limite","La dirección es incorrecta, debe ingresar solo la dirección de LA CARPETA"};
+            ,"Coordenedas Incorrectas o fuera del limite","La dirección es incorrecta, debe ingresar solo la dirección de LA CARPETA"
+            ,"Coordenadas iguales, intente otra vez","Movimiento no valido"};
     
-    
-    public static void onWinMessage(Player player){
+    @Override
+    public void onWinMessage(Player player){
         System.out.println(divisor);
         System.out.println("\tEl jugador " + player.getName() + " ha ganado esta partida");
         System.out.println(divisor);
     }
     
-    public static void onTieMessage(Player[] player){
+    @Override
+    public void onTieMessage(Player[] player){
         System.out.println(divisor);
         System.out.println("\tlos jugadores " + player[0].getName() + "y" + 
                 player[1].getName()+" han empatado");
         System.out.println(divisor);
     }
     
-    
-    public static void messageStalemate() {
+    @Override
+    public void messageStalemate() {
         System.out.println(divisor);
         System.out.println("\tEmpate por rey ahogado");
         System.out.println(divisor);
     }
 
-    
-    public static void onInvalidMoveCheck(Player[] player, int turn) {
+    @Override
+    public void onInvalidMoveCheck(Player[] player, int turn) {
         System.out.println(divisor);
         System.out.println("El movimiento lo pone en jaque, intente otra vez!!");
         System.out.println(divisor);
     }
-
-    public static void onCheck(Player[] player, int turn) {
+    
+    @Override
+    public void onCheck(Player[] player, int turn) {
         System.out.println(divisor);
         System.out.println("\tEl jugador " + player[turn].getName() + " esta en jaque" );
         System.out.println(divisor);
     }
     
-    public static void checkMate(Player[] player, int turn) {
+    @Override
+    public void checkMate(Player[] player, int turn) {
         System.out.println("\tJAQUE MATE");
         System.out.println("\tEl jugador " + player[turn].getName() + " ha perdido");
         System.out.println(divisor);
     }
     
-    public static void onQuitGame(Player player) {
+    @Override
+    public void onQuitGame(Player player) {
         System.out.println(divisor);
         System.out.println("El jugador "+ player.getName() + " se ha retirado del juego");
         System.out.println(divisor);
     }
     
-    public static void onError(int msg){
+    @Override
+    public void onError(int msg){
         System.out.println(divisor);
         System.out.println("\tError!!");
-        System.out.println("\t"+messages[msg]);
+        
+        if(msg<0 || msg>=messages.length){
+            System.out.println("\tNo hay mesaje en este índice");
+        }else{
+            System.out.println("\t"+messages[msg]);
+        }
         System.out.println("\t Intente otra vez");
         System.out.println(divisor);
     }
     
-    public static void messageDrawFifty(Player[] player) {
+    @Override
+    public void messageDrawFifty(Player[] player) {
         System.out.println(divisor);
         System.out.println("Empate por 50 movimientos si comer o avanzar peones");
         System.out.println("\tJudador "+player[0].getName() + " ha empatado con " + player[1].getName());
         System.out.println(divisor);
     }
     
-    public static void messageDrawKing(Player[] player){
+    @Override
+    public void messageDrawKing(Player[] player){
         System.out.println(divisor);
         System.out.println("Empate por ahogar al rey");
         System.out.println("\tJudador "+player[0].getName() + " ha empatado con " + player[1].getName());
         System.out.println(divisor);
     }
     
-    private static void onDuplicateCoordinate(){
-        System.out.println(divisor);
-        System.out.println("\tError!!, Cooerdenadas iguales, intente otra vez");
-        System.out.println(divisor);
-    }
-    
-    public static void onInvalidMove() {
-        System.out.println(divisor);
-        System.out.println("\tError!! Movimiento no valido, intente otra vez");
-        System.out.println(divisor);
-    }
-    
-    
-    public static void printBoard(Board board){
+    @Override
+    public void printBoard(Board board){
         System.out.println("\n"+board.toString());
         System.out.println(divisor);
     }
     
-    public static String readName(String col){
+    @Override
+    public String readName(String col){
         System.out.println(divisor);
         System.out.println("Ingrese nombre del jugador "+ col);
         return reader.next();
     }
-
-    public static void welcome() {
+    
+    @Override
+    public void welcome() {
         System.out.println(divisor);
         System.out.println("Bienvenido al juego:!!");
     }
     
-    public static int menu(){
+    @Override
+    public int menu(){
         System.out.println(divisor);
         String opt;
         int out;
@@ -136,7 +140,8 @@ public class UIText implements UI{
         return out;
     }
     
-    public static void printCemetery(Player w, Player b) {
+    @Override
+    public void printCemetery(Player w, Player b) {
         System.out.println(divisor);
         System.out.println("Cementerio: " );
         System.out.print("Blancas->" );
@@ -150,15 +155,15 @@ public class UIText implements UI{
         System.out.println("");
     }
     
-    
-    public static void whosePlayer(Player player){
+    @Override
+    public void whosePlayer(Player player){
         String playerColor= (player.isColor())?"White":"Black";
         System.out.println(divisor);
         System.out.println("Turno del jugador " + player.getName() + " - " + playerColor);
     }
     
-
-    public static String coordinateRead(){
+    @Override
+    public String coordinateRead(){
         String coord=new String();
         boolean flag=true; 
         do{
@@ -177,7 +182,8 @@ public class UIText implements UI{
         return coord;
     }
     
-    public static ArrayList<ArrayList<Integer>> inputMove() {
+    @Override
+    public ArrayList<ArrayList<Integer>> inputMove() {
         boolean flag=true;
         ArrayList<ArrayList<Integer>> moveCoordinates= new ArrayList<>();
         
@@ -190,7 +196,7 @@ public class UIText implements UI{
             moveCoordinates.add(Functional.splitCoordinatesString(coordinateRead()));
             
             if(moveCoordinates.get(0).equals(moveCoordinates.get(1))){//to avoid same coordinates input
-                onDuplicateCoordinate();
+                onError(6);
                 moveCoordinates.clear();
             }else{
                 flag=false;
@@ -199,8 +205,9 @@ public class UIText implements UI{
         
         return moveCoordinates;
     }
-
-    public static Piece askPromotioPiece(boolean color) {
+    
+    @Override
+    public Piece askPromotioPiece(boolean color) {
         Piece returnPiece;
         String opt;
         int out;
@@ -228,8 +235,9 @@ public class UIText implements UI{
         }
         return returnPiece;
     }
-
-    public static int movementOptions() {
+    
+    @Override
+    public int movementOptions() {
         int out;
         String opt;
         while(true){
@@ -253,8 +261,9 @@ public class UIText implements UI{
         }
         return out;
     }
-
-    public static void showPlayHist(Player[] player) {
+    
+    @Override
+    public void showPlayHist(Player[] player) {
         int it=0;
         System.out.println(divisor);
         System.out.println("Historial de Jugadas:");
@@ -274,7 +283,8 @@ public class UIText implements UI{
         }
     }
     
-     private static boolean overWriteMessage(String fileName) {
+    @Override
+    public boolean overWriteMessage(String fileName) {
         String opt;
         int out;
         System.out.println("\tVa a sobreescribir el archivo"+ fileName+ ",desea hacerlo?");
@@ -293,13 +303,14 @@ public class UIText implements UI{
                     onError(0);
                 }
             }catch(NumberFormatException e){
-                UIText.onError(2);
+                onError(2);
             }
         }while(flag);
         return false;
     }
-
-    public static String saveGameRequest(){
+    
+    @Override
+    public String saveGameRequest(){
         String path = new String();
         while(true){
             System.out.println(divisor);
@@ -325,34 +336,39 @@ public class UIText implements UI{
         
         return path;
     }
-
-    public static String loadGameRequest() {
+    
+    @Override
+    public String loadGameRequest() {
         System.out.println(divisor);
         System.out.println("Ingrese la dirección del archivo (Ej: C:\\archivo.chess)");
         System.out.println("Nota: Puede ser otra extensión, siempre que el archivo sea compatible. ");
         String fileName=reader.next();
         return fileName;
     }
-
-    public static void onSaveSuceed() {
+    
+    @Override
+    public void onSaveSuceed() {
         System.out.println(divisor);
         System.out.println("\t Se ha guardado la partida Exitosamente");
         System.out.println(divisor);
     }
-
-    public static void onSaveFailure() {
+    
+    @Override
+    public void onSaveFailure() {
         System.out.println(divisor);
         System.out.println("\t No se ha guardado la partida.");
         System.out.println(divisor);
     }
-
-    public static void onLoadFailure() {
+    
+    @Override
+    public void onLoadFailure() {
         System.out.println(divisor);
         System.out.println("\t No se puede cargar la partida, nueva partida iniciada");
         System.out.println(divisor);
     }
     
-    public static void onLoadSuceed() {
+    @Override
+    public void onLoadSuceed() {
         System.out.println(divisor);
         System.out.println("\t Carga realizada correctamente!");
         System.out.println(divisor);

@@ -11,9 +11,9 @@ import ui.UIText;
 public class Chess {
     private static Player player[]= new Player[2];
     private static Board board;
-    
+    private static UIText userUI = new UIText();
     public static void main(String[] args) {
-        UIText.welcome();
+        userUI.welcome();
         startGame();
     }
 
@@ -21,7 +21,7 @@ public class Chess {
         boolean flag=true;
         do{
             ManagePlayerTurn.setTurn(0);
-            int readValue=UIText.menu();
+            int readValue=userUI.menu();
             switch (readValue) {
                 case 1://new game
                     newGame();
@@ -35,19 +35,19 @@ public class Chess {
                     flag=false;
                     break;
                 default:
-                    UIText.onError(0);
+                    userUI.onError(0);
                     break;
             }
         }while(flag);
     }
     
     private static void newGame(){
-        player[0]=new Player(UIText.readName("Blancas"), true);
-        player[1]= new Player(UIText.readName("Negras"), false);
+        player[0]=new Player(userUI.readName("Blancas"), true);
+        player[1]= new Player(userUI.readName("Negras"), false);
         board = new Board(player[0], player[1]);
     }
     private static void loadGame(){
-        String filePath=UIText.loadGameRequest();
+        String filePath=userUI.loadGameRequest();
         try {
             FileInputStream fileIn= new FileInputStream(filePath);
             ObjectInputStream os = new ObjectInputStream(fileIn);
@@ -56,15 +56,15 @@ public class Chess {
             ManagePlayerTurn.setTurn(os.readInt());
             board=(Board)os.readObject();
             os.close();
-            UIText.onLoadSuceed();
+            userUI.onLoadSuceed();
         } catch (Exception e) {
-            UIText.onLoadFailure();
+            userUI.onLoadFailure();
             newGame();
         }
     }
     
     private static void saveGame(){
-        String fileName=UIText.saveGameRequest();
+        String fileName=userUI.saveGameRequest();
         try {
             FileOutputStream fileOut= new FileOutputStream(fileName,false);
             ObjectOutputStream os = new ObjectOutputStream(fileOut);
@@ -74,9 +74,9 @@ public class Chess {
             os.writeInt(ManagePlayerTurn.getTurn());
             os.writeObject(board);
             os.close();
-            UIText.onSaveSuceed();
+            userUI.onSaveSuceed();
         } catch (Exception ex) {
-            UIText.onSaveFailure();
+            userUI.onSaveFailure();
         }
     }
     
@@ -84,43 +84,43 @@ public class Chess {
         boolean flag=true;
         
         do{
-            UIText.printCemetery(player[0],player[1]);
-            UIText.printBoard(board);
-            UIText.whosePlayer(player[ManagePlayerTurn.getTurn()]);
+            userUI.printCemetery(player[0],player[1]);
+            userUI.printBoard(board);
+            userUI.whosePlayer(player[ManagePlayerTurn.getTurn()]);
             
             //onCheck
             if(MovementHandler.isCheck(board,player,ManagePlayerTurn.getTurn())){
                 if(!MovementHandler.isCheckRemovable(board,player,ManagePlayerTurn.getTurn())){
-                    UIText.checkMate(player,ManagePlayerTurn.getTurn());
+                    userUI.checkMate(player,ManagePlayerTurn.getTurn());
                     break;
                 }
-                UIText.onCheck(player,ManagePlayerTurn.getTurn());
+                userUI.onCheck(player,ManagePlayerTurn.getTurn());
             }
             
             //onDraw
             if(MovementHandler.drawFifty()){
-                UIText.messageDrawFifty(player);
+                userUI.messageDrawFifty(player);
                 break;
             }
             //saltemate draw
             if(MovementHandler.isKingStalemate(board, player, ManagePlayerTurn.getTurn())){
-                UIText.messageStalemate();
+                userUI.messageStalemate();
                 break;
             }
-            int opt=UIText.movementOptions();
+            int opt=userUI.movementOptions();
             
             switch (opt) {
                 case 1:
                     while(true){
-                        ArrayList<ArrayList<Integer>> moveData = UIText.inputMove();
+                        ArrayList<ArrayList<Integer>> moveData = userUI.inputMove();
                         if(MovementHandler.isFromEmpty(board, Functional.splitDataPair(moveData.get(0)))){
-                            UIText.onError(1);
+                            userUI.onError(1);
                             break;
                         }
                         if(MovementHandler.isValidMove(board, moveData,ManagePlayerTurn.getTurn())){
                             Object boardPlayer[]=MovementHandler.performMove(board, player,moveData);
                             if(MovementHandler.isCheck((Board) boardPlayer[0],(Player[]) boardPlayer[1],ManagePlayerTurn.getTurn())){//in case the move put the king in check
-                                UIText.onInvalidMoveCheck(player,ManagePlayerTurn.getTurn());
+                                userUI.onInvalidMoveCheck(player,ManagePlayerTurn.getTurn());
                                 break;
                             }
                             //if king is not in check, then we proceed to assign the genrated board to the current board.
@@ -136,22 +136,22 @@ public class Chess {
                             ManagePlayerTurn.changeTurn();
                             break;
                         }else{
-                            UIText.onInvalidMove();
+                            userUI.onError(7);
                         }
                     }   break;
                 case 2:
-                    UIText.showPlayHist(player);
+                    userUI.showPlayHist(player);
                     break;
                 case 3:
                     saveGame();
                     break;
                 case 4:
-                    UIText.onQuitGame(player[ManagePlayerTurn.getTurn()]); // the player who quits, looses
-                    UIText.onWinMessage(player[(ManagePlayerTurn.getTurn()+1)%2]); // the next player wins
+                    userUI.onQuitGame(player[ManagePlayerTurn.getTurn()]); // the player who quits, looses
+                    userUI.onWinMessage(player[(ManagePlayerTurn.getTurn()+1)%2]); // the next player wins
                     flag=false;
                     break;
                 default:
-                    UIText.onError(0);
+                    userUI.onError(0);
                     break;
             }
         }while (flag);

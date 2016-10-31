@@ -9,7 +9,7 @@ import ui.UIText;
 public class MovementHandler {
     private static int countRep=0;
     private static int pieceCheckCoord[]={-1,-1};
-    
+    private static UIText userUI = new UIText();
     protected static int[] getKingXY(Board board, Player[] player, int whichPlayer){
         int kingpos[]=new int[2];
         char cmp;
@@ -231,7 +231,7 @@ public class MovementHandler {
             toSet.setMoved(false);
             player[who].getPieces().remove(toSet);
 
-            toSet=UIText.askPromotioPiece((cmp=='p')?true:false);
+            toSet=userUI.askPromotioPiece((cmp=='p')?true:false);
             player[who].getPieces().add(toSet);
 
             player[who].addToHistory(from, to, board.getGameBoard()[from[0]][from[1]].getPiece(),
