@@ -6,12 +6,13 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import ui.UISwing;
 import ui.UIText;
 
 public class Chess {
     private static Player player[]= new Player[2];
     private static Board board;
-    private static UIText userUI = new UIText();
+    private static UISwing userUI = new UISwing();
     public static void main(String[] args) {
         userUI.welcome();
         startGame();
