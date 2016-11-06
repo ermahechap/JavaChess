@@ -10,7 +10,7 @@ public class Player implements Serializable{
     private ArrayList<Piece> pieces=new ArrayList<>();
     private ArrayList<Piece> cemetery= new ArrayList<>();
     private ArrayList<String>history= new ArrayList<>();
-    
+        
     public Player(String name, boolean color) {
         this.name = name;
         this.color = color;
@@ -96,6 +96,6 @@ public class Player implements Serializable{
     }
 
     
-    
+
     
 }

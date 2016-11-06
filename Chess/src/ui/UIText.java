@@ -108,6 +108,15 @@ public class UIText implements UI{
         System.out.println("Ingrese nombre del jugador "+ col);
         return reader.next();
     }
+
+    @Override
+    public Player[] readPlayers() {
+        Player player[]={new Player(readName("Blancas"), true)
+                ,new Player(readName("Negras"), false)};
+        return player;
+    }
+    
+    
     
     @Override
     public void welcome() {

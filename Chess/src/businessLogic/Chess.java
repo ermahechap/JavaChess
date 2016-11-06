@@ -6,17 +6,30 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import ui.UI;
 import ui.UISwing;
 import ui.UIText;
 
 public class Chess {
     private static Player player[]= new Player[2];
     private static Board board;
-    private static UISwing userUI = new UISwing();
+    private static UI userUI;
     public static void main(String[] args) {
+        setUserUI(args);
         userUI.welcome();
         startGame();
     }
+    
+    private static void setUserUI(String[] args){
+        if (args.length == 0) {
+            userUI = new UISwing();
+        } else if (args[0].equals("text")) {
+            userUI = new UIText();
+        } else {
+            userUI = new UISwing();
+        }
+    }
+    
 
     public static void startGame(){
         boolean flag=true;
@@ -43,8 +56,8 @@ public class Chess {
     }
     
     private static void newGame(){
-        player[0]=new Player(userUI.readName("Blancas"), true);
-        player[1]= new Player(userUI.readName("Negras"), false);
+        
+        player=userUI.readPlayers();
         board = new Board(player[0], player[1]);
     }
     private static void loadGame(){

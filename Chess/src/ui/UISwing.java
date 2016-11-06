@@ -3,7 +3,6 @@ package ui;
 import data.Board;
 import data.Piece;
 import data.Player;
-import data.Rook;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,27 +10,27 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.JFileChooser;
+import java.io.File; 
+import javax.swing.JOptionPane;
 
 public class UISwing extends javax.swing.JFrame implements UI{
+    
+    private static String messages[]= new String[]{"Opcion no listada","No hay pieza en la posición inicial"
+            ,"Se espera valor numerico","Ingrese una coordenada valida, es decir letra y número"
+            ,"Coordenedas Incorrectas o fuera del limite","La dirección es incorrecta, debe ingresar solo la dirección de LA CARPETA"
+            ,"Coordenadas iguales, intente otra vez","Movimiento no valido"};
+    
     public UISwing() {
-        try{
+        try {
             initComponents();
-            
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.updateComponentTreeUI(this);
-            this.setIconImage(new ImageIcon(getClass().getResource("resources/gameIcon.png")).getImage());
-            
+            this.setIconImage(new ImageIcon(getClass().getResource("/resources/gameIcon.png")).getImage());
+            this.setTitle("JavaChess");
             this.pack();
             this.setVisible(true);
-            
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UISwing.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(UISwing.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(UISwing.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(UISwing.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -45,181 +44,198 @@ public class UISwing extends javax.swing.JFrame implements UI{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setName("menuframe"); // NOI18N
+        jPanel1 = new javax.swing.JPanel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 863, Short.MAX_VALUE)
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        getContentPane().setLayout(new java.awt.CardLayout());
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 833, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 559, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 456, Short.MAX_VALUE)
         );
+
+        getContentPane().add(jPanel1, "card2");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UISwing.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UISwing.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UISwing.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UISwing.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UISwing().setVisible(true);
-            }
-        });
-    }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onWinMessage(Player player){
-        //Magic goes here
+    public void onWinMessage(Player player) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void onTieMessage(Player[] player) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void messageStalemate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void onInvalidMoveCheck(Player[] player, int turn) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void onCheck(Player[] player, int turn) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void checkMate(Player[] player, int turn) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void onQuitGame(Player player) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void onError(int msg) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void messageDrawFifty(Player[] player) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void messageDrawKing(Player[] player) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void printBoard(Board board) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     @Override
-    public void onTieMessage(Player[] player){
-        //Magic goes here
+    
+    public String readName(String col) {
+        return "nothing";
+    }
+
+    @Override
+    public Player[] readPlayers() {
+        NewGamePanel newGameP=new NewGamePanel();
+        this.getContentPane().removeAll();
+        this.getContentPane().add(newGameP);
+        this.revalidate();
+        this.repaint();
+        this.pack();
+        return newGameP.generatePlayers();
     }
     
     @Override
-    public void messageStalemate(){
-        //Magic goes here
+    public void welcome() {
     }
+
     @Override
-    public void onInvalidMoveCheck(Player[] player, int turn){
-        //Magic goes here
+    public int menu() {
+        MenuPanel mPanel=new MenuPanel();
+        
+        this.getContentPane().removeAll();
+        this.getContentPane().add(mPanel);
+        this.revalidate();
+        this.repaint();
+        this.pack();
+        int opt=mPanel.getChosen();//get choosen from pane
+        return opt;
     }
+
     @Override
-    public void onCheck(Player[] player, int turn){
-        //Magic goes here
+    public void printCemetery(Player w, Player b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
-    public void checkMate(Player[] player, int turn){
-        //Magic goes here
+    public void whosePlayer(Player player) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
-    public void onQuitGame(Player player){
-        //Magic goes here
+    public String coordinateRead() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
-    public void onError(int msg){
-        //Magic goes here
+    public ArrayList<ArrayList<Integer>> inputMove() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
-    public void messageDrawFifty(Player[] player){
-        //Magic goes here
+    public Piece askPromotioPiece(boolean color) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
-    public void messageDrawKing(Player[] player){
-        //Magic goes here
+    public int movementOptions() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
-    public void printBoard(Board board){
-        //Magic goes here
+    public void showPlayHist(Player[] player) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
-    public String readName(String col){
-        //Magic goes here
-        return "Not implemented yet";
+    public boolean overWriteMessage(String fileName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
-    public void welcome(){
-        //Magic goes here
+    public String saveGameRequest() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
-    public int menu(){
-        //Magic goes here
-        return 0;
+    public String loadGameRequest() {
+        JFileChooser fileChoser= new JFileChooser(new File(System.getProperty("user.home")));
+        fileChoser.setMultiSelectionEnabled(false);
+        fileChoser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int res = fileChoser.showOpenDialog(this);
+        if(res==JFileChooser.APPROVE_OPTION){
+            String path= fileChoser.getSelectedFile().getAbsolutePath();
+            return path;
+        }else{
+            return "";
+        }
     }
+
     @Override
-    public void printCemetery(Player w, Player b){
-        //Magic goes here
+    public void onSaveSuceed() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
-    public void whosePlayer(Player player){
-        //Magic goes here
+    public void onSaveFailure() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
-    public String coordinateRead(){
-        //Magic goes here
-        return "Not implemented yet";
+    public void onLoadFailure() {
+        JOptionPane.showMessageDialog(this, "No se puede cargar la partida\nnueva partida iniciada", "Fallo en carga de archivo!!", JOptionPane.ERROR_MESSAGE);
     }
+
     @Override
-    public ArrayList<ArrayList<Integer>> inputMove(){
-        //Magic goes here
-        return new ArrayList<ArrayList<Integer>>();
+    public void onLoadSuceed() {
+        JOptionPane.showMessageDialog(this, "Carga realizada correctamente", "Carga correcta!!", JOptionPane.INFORMATION_MESSAGE);
     }
-    @Override
-    public Piece askPromotioPiece(boolean color){
-        //Magic goes here
-        return new Rook(color);
-    }
-    @Override
-    public int movementOptions(){
-        //Magic goes here
-        return 0;
-    }
-    @Override
-    public void showPlayHist(Player[] player){
-        //Magic goes here
-    }
-    @Override
-    public boolean overWriteMessage(String fileName){
-        //Magic goes here
-        return true;
-    }
-    @Override
-    public String saveGameRequest(){
-        //Magic goes here
-        return "Not implemented yet";
-    }
-    @Override
-    public String loadGameRequest(){
-        //Magic goes here
-        return "Not implemented yet";
-    }
-    @Override
-    public void onSaveSuceed(){
-        //Magic goes here
-    }
-    @Override
-    public void onSaveFailure(){
-        //Magic goes here
-    }
-    @Override
-    public void onLoadFailure(){
-        //Magic goes here
-    }
-    @Override
-    public void onLoadSuceed(){
-        //Magic goes here
-    }
+
 }
