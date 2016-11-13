@@ -34,6 +34,7 @@ public interface UI {
     public void onSaveFailure();
     public void onLoadFailure();
     public void onLoadSuceed();
-
     public Player[] readPlayers();
+
+    public void createBoardInterface();
 }

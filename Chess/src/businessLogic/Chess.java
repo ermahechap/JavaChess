@@ -30,7 +30,6 @@ public class Chess {
         }
     }
     
-
     public static void startGame(){
         boolean flag=true;
         do{
@@ -96,7 +95,7 @@ public class Chess {
     
     private static void gameLoop(){
         boolean flag=true;
-        
+        userUI.createBoardInterface();//Need it only in Swing
         do{
             userUI.printCemetery(player[0],player[1]);
             userUI.printBoard(board);

@@ -203,7 +203,7 @@ public class UIText implements UI{
             moveCoordinates.add(Functional.splitCoordinatesString(coordinateRead()));
             System.out.println("Ingrese Coordenadas de destino de la misma forma:");
             moveCoordinates.add(Functional.splitCoordinatesString(coordinateRead()));
-            
+
             if(moveCoordinates.get(0).equals(moveCoordinates.get(1))){//to avoid same coordinates input
                 onError(6);
                 moveCoordinates.clear();
@@ -382,5 +382,11 @@ public class UIText implements UI{
         System.out.println("\t Carga realizada correctamente!");
         System.out.println(divisor);
     }
+
+    @Override
+    public void createBoardInterface() {
+        //Dont care
+    }
+    
 
 }

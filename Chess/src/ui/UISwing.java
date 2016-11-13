@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import data.Board;
@@ -18,13 +13,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-/**
- *
- * @author USUARIO
- */
 public class UISwing extends javax.swing.JFrame implements UI{
         private boolean menuBtnPressed=false;
         private int menuSelection=1;
+        private GameInterface game;
     public UISwing() {
         try {
             initComponents();
@@ -222,7 +214,7 @@ public class UISwing extends javax.swing.JFrame implements UI{
 
     @Override
     public void printBoard(Board board) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        game.updatePiecesPosition(board);
     }
 
     @Override
@@ -245,7 +237,7 @@ public class UISwing extends javax.swing.JFrame implements UI{
 
     @Override
     public void printCemetery(Player w, Player b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        game.updateCemetery(w, b);
     }
 
     @Override
@@ -325,9 +317,16 @@ public class UISwing extends javax.swing.JFrame implements UI{
                 ,new Player(register.getPlayerBlack(), false)};
         register.setVisible(false);
         register=null;
-        
         return player;
     }
+    
+    
+    @Override
+    public void createBoardInterface() {
+        game=new GameInterface();
+        game.setVisible(true);
+    }
+    
     
     public void pause(){
         try {
