@@ -3,12 +3,15 @@ package ui;
 import businessLogic.Chess;
 import businessLogic.Functional;
 import data.*;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -16,6 +19,7 @@ import javax.swing.JPanel;
 public class ChessBoard extends JPanel implements MouseListener, MouseMotionListener{
     public static boolean movePerformed=false;
     private boolean dragged=false;
+    private int ax,ay;
     public int mouseX=0,mouseY=0,newMouseX,newMouseY;
     public static ArrayList<ArrayList<Integer>>coordMoved=new ArrayList<>();
     
@@ -73,6 +77,7 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        Graphics2D g2=(Graphics2D)g;
         int squareSize=56;
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){
@@ -99,11 +104,21 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
                 }
             }
         }
+        
+        
+        g2.setColor(Color.RED);
+        g2.setStroke(new BasicStroke(5));
+        g2.draw(new Line2D.Float(mouseX, mouseY, ax, ay));
+        
+        g.setColor(Color.GREEN);
+        g.fillRect(mouseX-5, mouseY-5, 10, 10);
+        
+        g.setColor(Color.BLUE);
+        g.fillRect(ax-5, ay-5, 10, 10);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        
     }
 
     @Override
@@ -138,7 +153,6 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
             movePerformed=true;
             repaint();
         }
-        dragged=false;
     }
 
     @Override
@@ -153,6 +167,9 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        ax=e.getX();
+        ay=e.getY();
+        repaint();
     }
 
     @Override

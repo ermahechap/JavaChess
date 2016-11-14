@@ -154,6 +154,7 @@ public class GameInterface extends javax.swing.JFrame implements  MouseListener,
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 343, 265, 230));
 
+        jLabelCemeteryBlack.setBackground(new java.awt.Color(213, 148, 79));
         jLabelCemeteryBlack.setFont(new java.awt.Font("SansSerif", 0, 36)); // NOI18N
         jLabelCemeteryBlack.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelCemeteryBlack.setText("♟♟♟♟♟♟♟♟♞♞♝♝♜♜♛");
@@ -173,6 +174,7 @@ public class GameInterface extends javax.swing.JFrame implements  MouseListener,
 
         getContentPane().add(jPanelBoardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 67, 450, 453));
 
+        jLabelCemeteryWhite.setBackground(new java.awt.Color(213, 148, 79));
         jLabelCemeteryWhite.setFont(new java.awt.Font("SansSerif", 0, 36)); // NOI18N
         jLabelCemeteryWhite.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelCemeteryWhite.setText("♙♙♙♙♙♙♙♙♘♘♗♗♖♖♕");

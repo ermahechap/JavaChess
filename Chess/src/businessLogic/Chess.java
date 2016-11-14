@@ -12,7 +12,7 @@ import ui.UIText;
 
 public class Chess {
     private static Player player[]= new Player[2];
-    private static Board board;
+    private static Board b;
     public static UI userUI;
     public static void main(String[] args) {
         setUserUI(args);
@@ -57,7 +57,7 @@ public class Chess {
     private static void newGame(){
         
         player=userUI.readPlayers();
-        board = new Board(player[0], player[1]);
+        b = new Board(player[0], player[1]);
     }
     private static void loadGame(){
         String filePath=userUI.loadGameRequest();
@@ -67,7 +67,7 @@ public class Chess {
             player[0]=(Player)os.readObject();
             player[1]=(Player)os.readObject();
             ManagePlayerTurn.setTurn(os.readInt());
-            board=(Board)os.readObject();
+            b=(Board)os.readObject();
             os.close();
             userUI.onLoadSuceed();
         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class Chess {
             os.writeObject(player[0]);
             os.writeObject(player[1]);
             os.writeInt(ManagePlayerTurn.getTurn());
-            os.writeObject(board);
+            os.writeObject(b);
             os.close();
             userUI.onSaveSuceed();
         } catch (Exception ex) {
@@ -98,16 +98,21 @@ public class Chess {
         userUI.createBoardInterface();//Need it only in Swing
         do{
             userUI.printCemetery(player[0],player[1]);
-            userUI.printBoard(board);
+            userUI.printBoard(b);
             userUI.whosePlayer(player[ManagePlayerTurn.getTurn()]);
             if(userUI instanceof UISwing)userUI.showPlayHist(player);
             //onCheck
-            if(MovementHandler.isCheck(board,player,ManagePlayerTurn.getTurn())){
-                if(!MovementHandler.isCheckRemovable(board,player,ManagePlayerTurn.getTurn())){
+            System.out.println(b);
+            if(MovementHandler.isCheck(b,player,ManagePlayerTurn.getTurn())){
+                if(!MovementHandler.isCheckRemovable(b,player,ManagePlayerTurn.getTurn())){
                     userUI.checkMate(player,ManagePlayerTurn.getTurn());
+                    System.out.println("INTO");
+                    System.out.println(b.toString());
                     break;
                 }
-                    userUI.onCheck(player,ManagePlayerTurn.getTurn());
+                System.out.println("OUT");
+                System.out.println(b.toString());
+                userUI.onCheck(player,ManagePlayerTurn.getTurn());
             }
             
             //onDraw
@@ -116,12 +121,13 @@ public class Chess {
                 break;
             }
             //saltemate draw
-            if(MovementHandler.isKingStalemate(board, player, ManagePlayerTurn.getTurn())){
+            if(MovementHandler.isKingStalemate(b, player, ManagePlayerTurn.getTurn())){
                 userUI.messageStalemate();
                 break;
             }
-            System.out.println(board.toString());
+
             int opt=userUI.movementOptions();
+
             switch (opt) {
                 case 1:
                     while(true){
@@ -129,25 +135,25 @@ public class Chess {
                         if(moveData.get(0).equals(moveData.get(1))){//correct some behaiviour when retirving form swing, UIText has a validation for this
                             break;
                         }
-                        if(MovementHandler.isFromEmpty(board, Functional.splitDataPair(moveData.get(0)))){
+                        if(MovementHandler.isFromEmpty(b, Functional.splitDataPair(moveData.get(0)))){
                             userUI.onError(1);
                             break;
                         }
-                        if(MovementHandler.isValidMove(board, moveData,ManagePlayerTurn.getTurn())){
-                            Object boardPlayer[]=MovementHandler.performMove(board, player,moveData);
+                        if(MovementHandler.isValidMove(b, moveData,ManagePlayerTurn.getTurn())){
+                            Object boardPlayer[]=MovementHandler.performMove(b, player,moveData);
                             if(MovementHandler.isCheck((Board) boardPlayer[0],(Player[]) boardPlayer[1],ManagePlayerTurn.getTurn())){//in case the move put the king in check
                                 userUI.onInvalidMoveCheck(player,ManagePlayerTurn.getTurn());
                                 break;
                             }
                             //if king is not in check, then we proceed to assign the genrated board to the current board.
                             MovementHandler.setPieceCheckCoord(new int[]{-1,-1});
-                            board=(Board) boardPlayer[0];//note: casting is required, return type is object, need to be board
+                            b=(Board) boardPlayer[0];//note: casting is required, return type is object, need to be board
                             player=(Player[]) boardPlayer[1];
                             ManagePlayerTurn.changeTurn();
                             break;
-                        }else if(MovementHandler.canCastle(board, moveData,ManagePlayerTurn.getTurn()) && !MovementHandler.isCheck(board,player,ManagePlayerTurn.getTurn())){//castling
-                            Object boardPlayer[]=MovementHandler.performCastling(board, player,moveData);
-                            board=(Board) boardPlayer[0];//note: casting is required, return type is object, need to be board
+                        }else if(MovementHandler.canCastle(b, moveData,ManagePlayerTurn.getTurn()) && !MovementHandler.isCheck(b,player,ManagePlayerTurn.getTurn())){//castling
+                            Object boardPlayer[]=MovementHandler.performCastling(b, player,moveData);
+                            b=(Board) boardPlayer[0];//note: casting is required, return type is object, need to be board
                             player=(Player[]) boardPlayer[1];
                             ManagePlayerTurn.changeTurn();
                             break;
@@ -176,7 +182,7 @@ public class Chess {
     }    
     
     public static Board retriveBoard(){//easy for GUI
-        return board;
+        return b;
     }
     
 }

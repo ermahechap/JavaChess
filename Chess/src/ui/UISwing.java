@@ -1,11 +1,16 @@
 package ui;
 
+import data.Bishop;
 import data.Board;
+import data.Knight;
 import data.Piece;
 import data.Player;
+import data.Queen;
+import data.Rook;
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -206,6 +211,7 @@ public class UISwing extends javax.swing.JFrame implements UI {
 
     @Override
     public void onCheck(Player[] player, int turn) {
+        game.repaint();
         JOptionPane.showMessageDialog(game, "El jugador " + player[turn].getName() + " esta en jaque", "Check!!", JOptionPane.WARNING_MESSAGE);
     }
 
@@ -300,7 +306,18 @@ public class UISwing extends javax.swing.JFrame implements UI {
 
     @Override
     public Piece askPromotioPiece(boolean color) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Piece returnPiece;
+        String opt;
+        
+        ArrayList<Piece> values=new ArrayList<>(Arrays.asList(new Queen(color),
+            new Knight(color),new Rook(color),new Bishop(color)));
+        String[] buttons = { "Queen", "Knight", "Rook", "Bishop" };
+        
+        int out = JOptionPane.showOptionDialog(game, "Seleccione la por la que desea hacer el cambio","Change",
+        JOptionPane.DEFAULT_OPTION, 0, null, buttons, buttons[2]);
+        
+        returnPiece= values.get(out);
+        return returnPiece;
     }
 
     @Override
