@@ -26,7 +26,7 @@ public class UIText implements UI{
     @Override
     public void onTieMessage(Player[] player){
         System.out.println(divisor);
-        System.out.println("\tlos jugadores " + player[0].getName() + "y" + 
+        System.out.println("\tLos jugadores " + player[0].getName() + "y" + 
                 player[1].getName()+" han empatado");
         System.out.println(divisor);
     }
@@ -83,7 +83,7 @@ public class UIText implements UI{
     @Override
     public void messageDrawFifty(Player[] player) {
         System.out.println(divisor);
-        System.out.println("Empate por 50 movimientos si comer o avanzar peones");
+        System.out.println("Empate por 50 movimientos sin comer o avanzar peones");
         System.out.println("\tJudador "+player[0].getName() + " ha empatado con " + player[1].getName());
         System.out.println(divisor);
     }

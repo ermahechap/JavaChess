@@ -4,26 +4,39 @@ import data.Board;
 import data.Piece;
 import data.Player;
 import java.awt.Color;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class UISwing extends javax.swing.JFrame implements UI{
-    private boolean menuBtnPressed=false;
-    private int menuSelection=1;
+public class UISwing extends javax.swing.JFrame implements UI {
+
+    private boolean menuBtnPressed = false;
+    private int menuSelection = 1;
+
+    private static String messages[] = new String[]{"Opcion no listada", "No hay pieza en la posición inicial"
+            , "Se espera valor numerico", "Ingrese una coordenada valida, es decir letra y número"
+            , "Coordenedas Incorrectas o fuera del limite", "La dirección es incorrecta, debe ingresar solo la dirección de LA CARPETA"
+            , "Coordenadas iguales", "Movimiento no valido"};
+
     private GameInterface game;
+
     public UISwing() {
         try {
             initComponents();
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.updateComponentTreeUI(this);
-            ImageIcon icon= new ImageIcon("/resources/gameIcon.png");
+            ImageIcon icon = new ImageIcon("/resources/gameIcon.png");
             this.setIconImage(icon.getImage());
+
             this.pack();
             this.setVisible(true);
         } catch (ClassNotFoundException ex) {
@@ -136,20 +149,20 @@ public class UISwing extends javax.swing.JFrame implements UI{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonNewGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewGameActionPerformed
-        menuBtnPressed=true;
-        menuSelection=1;
+        menuBtnPressed = true;
+        menuSelection = 1;
     }//GEN-LAST:event_jButtonNewGameActionPerformed
 
     private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
-        menuBtnPressed=true;
-        menuSelection=2;
+        menuBtnPressed = true;
+        menuSelection = 2;
     }//GEN-LAST:event_jButtonLoadActionPerformed
 
     private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
         this.setVisible(false);
         this.dispose();
-        menuBtnPressed=true;
-        menuSelection=3;
+        menuBtnPressed = true;
+        menuSelection = 3;
     }//GEN-LAST:event_jButtonExitActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -164,66 +177,93 @@ public class UISwing extends javax.swing.JFrame implements UI{
 
     @Override
     public void onWinMessage(Player player) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(game, "El jugador " + player.getName()
+                + " ha ganado esta partida", "Win!!", JOptionPane.INFORMATION_MESSAGE);
+        game.setVisible(false);
+        this.setVisible(true);
     }
 
     @Override
     public void onTieMessage(Player[] player) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(game, "Los jugadores " + player[0].getName() + "y"
+                + player[1].getName() + " han empatado", "Tie!!", JOptionPane.INFORMATION_MESSAGE);
+        game.setVisible(false);
+        this.setVisible(true);
     }
 
     @Override
     public void messageStalemate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(game, "Empate por rey ahogado", "Stalemate!!", JOptionPane.INFORMATION_MESSAGE);
+        game.setVisible(false);
+        this.setVisible(true);
     }
 
     @Override
     public void onInvalidMoveCheck(Player[] player, int turn) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(game, "El movimiento lo pone en jaque"
+                + "\nIntente otra vez", "Invalid Move!!", JOptionPane.WARNING_MESSAGE);
     }
 
     @Override
     public void onCheck(Player[] player, int turn) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(game, "El jugador " + player[turn].getName() + " esta en jaque", "Check!!", JOptionPane.WARNING_MESSAGE);
     }
 
     @Override
     public void checkMate(Player[] player, int turn) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(game, "El jugador " + player[turn].getName() + " ha perdido", "Check Mate!!", JOptionPane.WARNING_MESSAGE);
+        game.setVisible(false);
+        this.setVisible(true);
     }
 
     @Override
     public void onQuitGame(Player player) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(game, "El jugador " + player.getName() + " se ha retirado del juego", "Quit!!", JOptionPane.WARNING_MESSAGE);
+        game.setVisible(false);
+        this.setVisible(true);
     }
 
     @Override
     public void onError(int msg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String ms = new String();
+        if (msg < 0 || msg >= messages.length) {
+            ms = "No hay mesaje en este índice";
+        } else {
+            ms = messages[msg];
+        }
+        ms += "\nIntente otra vez";
+        JOptionPane.showMessageDialog(game, ms, "Error!!", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public void messageDrawFifty(Player[] player) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(game, "Empate por 50 movimientos sin comer o avanzar peones", "Draw 50!!", JOptionPane.INFORMATION_MESSAGE);
+        game.setVisible(false);
+        this.setVisible(true);
     }
 
     @Override
     public void messageDrawKing(Player[] player) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(game, "Empate por ahogar al rey"
+                + "\nJudador " + player[0].getName() + " ha empatado con " + player[1].getName(), "Tie!!", JOptionPane.INFORMATION_MESSAGE);
+        game.setVisible(false);
+        this.setVisible(true);
     }
 
     @Override
     public void printBoard(Board board) {
-        //nothing to do here
+        //nothing to do here :vvvv
     }
 
     @Override
     public String readName(String col) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //neither here :vvv
+        return "blablabla";// :v
     }
 
     @Override
     public void welcome() {
+        //or here :vvvv, so cool
     }
 
     @Override
@@ -231,7 +271,7 @@ public class UISwing extends javax.swing.JFrame implements UI{
         do {
             pause();
         } while (!menuBtnPressed);
-        menuBtnPressed=false;
+        menuBtnPressed = false;
         return menuSelection;
     }
 
@@ -242,19 +282,20 @@ public class UISwing extends javax.swing.JFrame implements UI{
 
     @Override
     public void whosePlayer(Player player) {
-        String name=player.getName();
-        String playerColor= (player.isColor())?"White":"Black";
-        game.setCurrentPlayer(name,playerColor);
+        String name = player.getName();
+        String playerColor = (player.isColor()) ? "White" : "Black";
+        game.setCurrentPlayer(name, playerColor);
     }
 
     @Override
     public String coordinateRead() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //i dont this
+        return "blabla";
     }
 
     @Override
     public ArrayList<ArrayList<Integer>> inputMove() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return ChessBoard.coordMoved;
     }
 
     @Override
@@ -264,90 +305,117 @@ public class UISwing extends javax.swing.JFrame implements UI{
 
     @Override
     public int movementOptions() {
-        boolean moved=false, quit=false,save=false;
-        int opt=1;
+        boolean moved = false, quit = false, save = false;
+        int opt = 1;
         do {
-            save=game.isSavePressed();
-            quit=game.isQuitPressed();
-            moved=game.isPieceMoved();
+            save = game.isSavePressed();
+            quit = game.isQuitPressed();
+            moved = game.isPieceMoved();
             pause();
         } while (!save && !quit && !moved);
-        System.out.println("dsafasdf");
-        if(quit)opt=4;
-        if(moved)opt=1;
-        if(save)opt=3;
+        if (quit)opt = 4;
+        if (moved)opt = 1;
+        if (save)opt = 3;
+        game.repaint();
         return opt;
     }
 
     @Override
     public void showPlayHist(Player[] player) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        game.updateHistory(player);
     }
 
     @Override
     public boolean overWriteMessage(String fileName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //do not need this one
+        return true;
     }
 
     @Override
     public String saveGameRequest() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JFileChooser fileChoser = new JFileChooser(new File(System.getProperty("user.home")));
+        fileChoser.addChoosableFileFilter(new FileNameExtensionFilter("File Chess", "chess"));
+        fileChoser.addChoosableFileFilter(new FileNameExtensionFilter("File Object", "obj"));
+        fileChoser.setAcceptAllFileFilterUsed(true);
+        
+        fileChoser.setMultiSelectionEnabled(false);
+        fileChoser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int res = fileChoser.showSaveDialog(game);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChoser.getSelectedFile();
+            String path = selectedFile.getAbsolutePath();
+            if(!fileChoser.getFileFilter().accept(selectedFile)){
+                path+=(fileChoser.getFileFilter().getDescription().equals("File Chess"))?".chess":".obj";
+            }
+            return path;
+        } else {
+            return "";
+        }
     }
 
     @Override
     public String loadGameRequest() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JFileChooser fileChoser = new JFileChooser(new File(System.getProperty("user.home")));
+        fileChoser.setMultiSelectionEnabled(false);
+        fileChoser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int res = fileChoser.showOpenDialog(this);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            String path = fileChoser.getSelectedFile().getAbsolutePath();
+            this.setVisible(false);
+            return path;
+        } else {
+            this.setVisible(false);
+            return "";
+        }
+        
     }
 
     @Override
     public void onSaveSuceed() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(game, "Se ha guardado la partida Exitosamente", "Save Success!!", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
     public void onSaveFailure() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(game, "No se ha guardado la partida", "Save Failure!!", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public void onLoadFailure() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(game, "No se puede cargar la partida, nueva partida iniciada", "Load Failure!!", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public void onLoadSuceed() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JOptionPane.showMessageDialog(game, "Carga realizada correctamente", "Load Success!!", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
     public Player[] readPlayers() {
         this.setVisible(false);
-        PlayerRegisterMenu register=new PlayerRegisterMenu();
+        PlayerRegisterMenu register = new PlayerRegisterMenu();
         register.setLocationRelativeTo(this);
         do {
             pause();
         } while (!register.isBtnPressed());
-        Player player[]={new Player(register.getPlayerWhite(), true)
-                ,new Player(register.getPlayerBlack(), false)};
+        Player player[] = {new Player(register.getPlayerWhite(), true), new Player(register.getPlayerBlack(), false)};
         register.setVisible(false);
-        register=null;
+        register = null;
         return player;
     }
-    
-    
+
     @Override
     public void createBoardInterface() {
-        game=new GameInterface();
+        game = new GameInterface();
         game.setVisible(true);
     }
-    
-    
-    public void pause(){
+
+    public void pause() {
         try {
             Thread.sleep(50);
         } catch (InterruptedException ex) {
             Logger.getLogger(UISwing.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }

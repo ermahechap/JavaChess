@@ -6,6 +6,9 @@ import data.Player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -15,7 +18,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public class GameInterface extends javax.swing.JFrame {
+public class GameInterface extends javax.swing.JFrame implements  MouseListener, MouseMotionListener{//crapy, but y need the mouse listener to make jpanel work
     boolean saveBtn=false,quitBtn=false,moveBtn=false;
     public GameInterface() {
         try {
@@ -24,7 +27,13 @@ public class GameInterface extends javax.swing.JFrame {
             SwingUtilities.updateComponentTreeUI(this);
             ImageIcon icon= new ImageIcon("/resources/gameIcon.png");
             this.setIconImage(icon.getImage());
+            
             this.setVisible(true);
+            
+            addMouseListener(this);
+            addMouseMotionListener(this);
+            
+            this.pack();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UISwing.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -53,6 +62,7 @@ public class GameInterface extends javax.swing.JFrame {
         jLabelCemeteryWhite = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Jugadas"));
@@ -243,13 +253,69 @@ public class GameInterface extends javax.swing.JFrame {
         if(ChessBoard.movePerformed){
             ChessBoard.movePerformed=false;//debounce
             return true;
-        }else return false;
+        }
+        return false;
     }
     public boolean isSavePressed() {
-        return saveBtn;
+        if(saveBtn){
+            saveBtn=false;
+            return true;
+        }
+        return false;
     }
 
     public boolean isQuitPressed() {
-        return quitBtn;
+        if(quitBtn){
+            quitBtn=false;
+            return true;
+        }
+        return false;
     }
+    
+    public void updateHistory(Player[] player) {
+        jTextAreaHistory.setText("");
+        jTextAreaHistory.append("   Blancas \tNegras");
+        int it=0;
+        while (true){
+            jTextAreaHistory.append("\n"+it+". ");
+            if(it<player[0].getHistory().size())jTextAreaHistory.append(player[0].getHistory().get(it)+"\t");
+            else jTextAreaHistory.append("        "+"\t");
+            
+            if(it<player[1].getHistory().size())jTextAreaHistory.append(player[1].getHistory().get(it));
+            else jTextAreaHistory.append("        ");
+            if(it>=player[0].getHistory().size() && it>=player[0].getHistory().size()){
+                break;
+            }
+            it++;
+        }
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+    }
+    
 }

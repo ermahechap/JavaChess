@@ -13,7 +13,7 @@ import ui.UIText;
 public class Chess {
     private static Player player[]= new Player[2];
     private static Board board;
-    private static UI userUI;
+    public static UI userUI;
     public static void main(String[] args) {
         setUserUI(args);
         userUI.welcome();
@@ -100,14 +100,14 @@ public class Chess {
             userUI.printCemetery(player[0],player[1]);
             userUI.printBoard(board);
             userUI.whosePlayer(player[ManagePlayerTurn.getTurn()]);
-            
+            if(userUI instanceof UISwing)userUI.showPlayHist(player);
             //onCheck
             if(MovementHandler.isCheck(board,player,ManagePlayerTurn.getTurn())){
                 if(!MovementHandler.isCheckRemovable(board,player,ManagePlayerTurn.getTurn())){
                     userUI.checkMate(player,ManagePlayerTurn.getTurn());
                     break;
                 }
-                userUI.onCheck(player,ManagePlayerTurn.getTurn());
+                    userUI.onCheck(player,ManagePlayerTurn.getTurn());
             }
             
             //onDraw
@@ -120,12 +120,15 @@ public class Chess {
                 userUI.messageStalemate();
                 break;
             }
+            System.out.println(board.toString());
             int opt=userUI.movementOptions();
-            
             switch (opt) {
                 case 1:
                     while(true){
                         ArrayList<ArrayList<Integer>> moveData = userUI.inputMove();
+                        if(moveData.get(0).equals(moveData.get(1))){//correct some behaiviour when retirving form swing, UIText has a validation for this
+                            break;
+                        }
                         if(MovementHandler.isFromEmpty(board, Functional.splitDataPair(moveData.get(0)))){
                             userUI.onError(1);
                             break;
@@ -150,8 +153,10 @@ public class Chess {
                             break;
                         }else{
                             userUI.onError(7);
+                            break;
                         }
-                    }   break;
+                    }
+                    break;
                 case 2:
                     userUI.showPlayHist(player);
                     break;

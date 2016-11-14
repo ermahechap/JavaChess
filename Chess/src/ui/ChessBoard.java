@@ -1,24 +1,28 @@
 package ui;
 
 import businessLogic.Chess;
+import businessLogic.Functional;
 import data.*;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Ellipse2D;
-import java.io.File;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class ChessBoard extends JPanel implements MouseListener, MouseMotionListener{
     public static boolean movePerformed=false;
-    public static int mouseX,mouseY,newMouseX,newMouseY;
+    private boolean dragged=false;
+    public int mouseX=0,mouseY=0,newMouseX,newMouseY;
+    public static ArrayList<ArrayList<Integer>>coordMoved=new ArrayList<>();
+    
     public ChessBoard() {
         initComponents();
+        addMouseListener(this);
+        addMouseMotionListener(this);
     }
 
     /**
@@ -34,11 +38,11 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 453, Short.MAX_VALUE)
+            .addGap(0, 448, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 453, Short.MAX_VALUE)
+            .addGap(0, 448, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -79,7 +83,6 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
                 }
                 g.fillRect(squareSize*i, squareSize*j, squareSize, squareSize);
             }
-            
         }
         
         Board currentBoard=Chess.retriveBoard();
@@ -96,7 +99,6 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
                 }
             }
         }
-    
     }
 
     @Override
@@ -106,7 +108,7 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(e.getX()<453 && e.getY()<453){//inside board
+        if(e.getX()<448&& e.getY()<448){//inside board
             mouseX=e.getX();
             mouseY=e.getY();
             repaint();
@@ -115,15 +117,28 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(e.getX()<453 && e.getY()<453){//inside board
-            newMouseX=e.getX();
-            newMouseY=e.getY();
-            movePerformed=true;
+        if(e.getX()<448 && e.getY()<448){//inside board
+            newMouseX=e.getX();//horizontal
+            newMouseY=e.getY();//vertical
             if(e.getButton()==MouseEvent.BUTTON1){
+                ArrayList<ArrayList<Integer>>fromTo=new ArrayList<>();
+                ArrayList <Integer>coord=new ArrayList();
+                coord.add((int)((8.0/448.0)*mouseY));//supposed to be integer
+                coord.add((int)((8.0/448.0)*mouseX));//supposed to be characters
+                fromTo.add(new ArrayList<>(coord));
+                coord.clear();
                 
+                coord.add((int)((8.0/448.0)*newMouseY));//supposed to be integer
+                coord.add((int)((8.0/448.0)*newMouseX));//supposed to be characters
+                fromTo.add(new ArrayList<>(coord));
+                coord.clear();
+//                coordMoved=fromTo;
+                coordMoved=fromTo;
             }
+            movePerformed=true;
             repaint();
         }
+        dragged=false;
     }
 
     @Override
@@ -143,7 +158,5 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
     @Override
     public void mouseMoved(MouseEvent e) {
     }
-    
-    
     
 }

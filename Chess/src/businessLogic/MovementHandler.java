@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import data.Board;
 import data.Piece;
 import data.Player;
+import ui.UI;
 import ui.UIText;
+import ui.UISwing;
 
 public class MovementHandler {
     private static int countRep=0;
     private static int pieceCheckCoord[]={-1,-1};
-    private static UIText userUI = new UIText();
+    private static UI userUI = Chess.userUI;
     protected static int[] getKingXY(Board board, Player[] player, int whichPlayer){
         int kingpos[]=new int[2];
         char cmp;
@@ -36,6 +38,7 @@ public class MovementHandler {
     
     protected static boolean isValidMove(Board board,int from[], int to[],int whichPlayer){
         Piece piece=board.getGameBoard()[from[0]][from[1]].getPiece();
+        if(piece==null)return false;
         if(Character.isLowerCase(piece.getPieceSign()) && whichPlayer==0){
             return piece.pieceVerifyMove(board,from,to);
         }
@@ -53,18 +56,19 @@ public class MovementHandler {
     
     static boolean isKingFrom(Board board,ArrayList<ArrayList<Integer>> moveData) {
         int from[]=Functional.splitDataPair(moveData.get(0));//row,col
+        if(board.getGameBoard()[from[0]][from[1]].getPiece()==null)return false;
         return (board.getGameBoard()[from[0]][from[1]].getPiece().getClass().toString().equals("class data.King"));
     }
 
     static boolean isRookTo(Board board,ArrayList<ArrayList<Integer>> moveData) {
         int to[]=Functional.splitDataPair(moveData.get(1));//row,col
+        if(board.getGameBoard()[to[0]][to[1]].getPiece()==null)return false;
         return (board.getGameBoard()[to[0]][to[1]].getPiece().getClass().toString().equals("class data.Rook"));
     }
     
     static boolean canCastle(Board board, ArrayList<ArrayList<Integer>> moveData, int whichPlayer) {
         int from[]=Functional.splitDataPair(moveData.get(0));//row,col
         int to[]=Functional.splitDataPair(moveData.get(1));//row,col
-        
         if(!(MovementHandler.isKingFrom(board,moveData) && MovementHandler.isRookTo(board,moveData))){
             return false;
         }
@@ -94,7 +98,6 @@ public class MovementHandler {
     
     protected static boolean isCheck(Board board, Player[] player, int whichPlayer){
         int kingpos[]=getKingXY(board,player,whichPlayer);
-        
         if(whichPlayer==0){
             for(int i=0;i<8;i++){
                 for(int j=0;j<8;j++){

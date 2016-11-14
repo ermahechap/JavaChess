@@ -6,8 +6,8 @@ public class Functional {
     public static ArrayList<Integer> splitCoordinatesString(String str){
         ArrayList<Integer> coord= new ArrayList<>();
         //to set 0,0 as upper left corner
-        coord.add(8-((int)str.charAt(1)-(int)'0'));//rows first
-        coord.add(((int)str.charAt(0))-((int)'a'));//cols second
+        coord.add(8-((int)str.charAt(1)-(int)'0'));//rows second
+        coord.add(((int)str.charAt(0))-((int)'a'));//cols first
         return coord;
     }
     
@@ -19,5 +19,14 @@ public class Functional {
     public static char toCharCoordinate(int cr){
         return (char)(cr+((int)'a'));
     }
+
+    public static ArrayList<Integer> reverseCoordinade(ArrayList<Integer> coord) {
+        ArrayList<Integer> reverse= new ArrayList<>();
+        //to set 0,0 as upper left corner
+        reverse.add(coord.get(0)+(int)'a');
+        reverse.add(coord.get(1)+(int)'0');
+        return reverse;
+    }
+
     
 }
