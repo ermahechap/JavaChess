@@ -42,6 +42,10 @@ public class Board implements Serializable{
             gameBoard[r2][c].setPiece(blackPieces.get(i));
         }
     }
+    
+    public Board(Board b){//easy one for clonning
+        this.gameBoard=b.getGameBoard();
+    }
 
     public Square[][] getGameBoard() {
         return gameBoard;
@@ -68,8 +72,5 @@ public class Board implements Serializable{
         rows+="\n     A B C D E F G H";
         return rows;
     }
-    
-    
-    
     
 }

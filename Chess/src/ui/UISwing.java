@@ -41,7 +41,6 @@ public class UISwing extends javax.swing.JFrame implements UI {
             SwingUtilities.updateComponentTreeUI(this);
             ImageIcon icon = new ImageIcon("/resources/gameIcon.png");
             this.setIconImage(icon.getImage());
-
             this.pack();
             this.setVisible(true);
         } catch (ClassNotFoundException ex) {

@@ -3,7 +3,7 @@ package data;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Piece implements Serializable{
+public abstract class Piece implements Serializable,Cloneable{
     private char pieceSign;//p=peon,t=torre,c=caballo.....a,r=reina,k=king(rey) - mayusc:Negras
     private boolean moved=false;//default, false
     private int dx[];
@@ -58,6 +58,5 @@ public abstract class Piece implements Serializable{
     public void setLastMovePath(ArrayList<int[]> lastMovePath) {
         this.lastMovePath = lastMovePath;
     }
-
     
 }
