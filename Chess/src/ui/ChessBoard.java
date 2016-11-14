@@ -1,5 +1,6 @@
 package ui;
 
+import businessLogic.Chess;
 import data.*;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,12 +10,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
+import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class ChessBoard extends JPanel implements MouseListener, MouseMotionListener{
-    public Board currentBoard;
-    
+    public static boolean movePerformed=false;
+    public static int mouseX,mouseY,newMouseX,newMouseY;
     public ChessBoard() {
         initComponents();
     }
@@ -44,7 +46,7 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
     // End of variables declaration//GEN-END:variables
     
     private String piecePath(char piece){
-        String path="/resources/boardIcons/";
+        String path="/resources/";
         char piecesLowerCase[]={'p','k','q','b','n','r'};
         String swapLowerCasePath[]={"whitePawn.png","whiteKing.png","whiteQueen.png"
                 ,"whiteBishop.png","whiteKnight.png","whiteRook.png"};
@@ -60,19 +62,14 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
                 if(lowercased==piecesLowerCase[i])path+=swapUpperCasePath[i];
             }
         }
-        
+//        System.out.println("Path:"+path);
         return path;
     }    
-    
-    public void setCurrrentBoard(Board b){
-        this.currentBoard=b;
-    }
-    
     
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        int siz=56;
+        int squareSize=56;
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){
                 if((i+j)%2==0){
@@ -80,10 +77,12 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
                 }else{
                     g.setColor(Color.decode("#DDA972"));
                 }
-                g.fillRect(siz*i, siz*j, siz, siz);
+                g.fillRect(squareSize*i, squareSize*j, squareSize, squareSize);
             }
             
         }
+        
+        Board currentBoard=Chess.retriveBoard();
         if(currentBoard!=null){
             Square[][] gameBoard = currentBoard.getGameBoard();
             for(int i=0;i<8;i++){
@@ -91,7 +90,9 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
                     if(gameBoard[i][j].getPiece()==null)continue;
                     char chr=gameBoard[i][j].getPiece().getPieceSign();
                     String path=piecePath(chr);
-                    g.drawImage(new ImageIcon(path).getImage(), i, j, this);
+                    Image chessPieceImage;
+                    chessPieceImage=chessPieceImage=new ImageIcon(getClass().getResource(path)).getImage();
+                    g.drawImage(chessPieceImage, j*squareSize, i*squareSize, squareSize, squareSize, this);
                 }
             }
         }
@@ -100,37 +101,47 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        repaint();
+        
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(e.getX()<453 && e.getY()<453){//inside board
+            mouseX=e.getX();
+            mouseY=e.getY();
+            repaint();
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(e.getX()<453 && e.getY()<453){//inside board
+            newMouseX=e.getX();
+            newMouseY=e.getY();
+            movePerformed=true;
+            if(e.getButton()==MouseEvent.BUTTON1){
+                
+            }
+            repaint();
+        }
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        repaint();
     }
     
     

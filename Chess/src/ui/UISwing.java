@@ -14,9 +14,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class UISwing extends javax.swing.JFrame implements UI{
-        private boolean menuBtnPressed=false;
-        private int menuSelection=1;
-        private GameInterface game;
+    private boolean menuBtnPressed=false;
+    private int menuSelection=1;
+    private GameInterface game;
     public UISwing() {
         try {
             initComponents();
@@ -214,7 +214,7 @@ public class UISwing extends javax.swing.JFrame implements UI{
 
     @Override
     public void printBoard(Board board) {
-        game.updatePiecesPosition(board);
+        //nothing to do here
     }
 
     @Override
@@ -242,7 +242,9 @@ public class UISwing extends javax.swing.JFrame implements UI{
 
     @Override
     public void whosePlayer(Player player) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String name=player.getName();
+        String playerColor= (player.isColor())?"White":"Black";
+        game.setCurrentPlayer(name,playerColor);
     }
 
     @Override
@@ -262,7 +264,19 @@ public class UISwing extends javax.swing.JFrame implements UI{
 
     @Override
     public int movementOptions() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean moved=false, quit=false,save=false;
+        int opt=1;
+        do {
+            save=game.isSavePressed();
+            quit=game.isQuitPressed();
+            moved=game.isPieceMoved();
+            pause();
+        } while (!save && !quit && !moved);
+        System.out.println("dsafasdf");
+        if(quit)opt=4;
+        if(moved)opt=1;
+        if(save)opt=3;
+        return opt;
     }
 
     @Override

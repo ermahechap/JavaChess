@@ -16,6 +16,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class GameInterface extends javax.swing.JFrame {
+    boolean saveBtn=false,quitBtn=false,moveBtn=false;
     public GameInterface() {
         try {
             initComponents();
@@ -46,7 +47,9 @@ public class GameInterface extends javax.swing.JFrame {
         jButtonExit = new javax.swing.JButton();
         jLabelPlayerColor = new javax.swing.JLabel();
         jLabelPlayerName = new javax.swing.JLabel();
+        Save = new javax.swing.JButton();
         jLabelCemeteryBlack = new javax.swing.JLabel();
+        jPanelBoardContainer = new ui.ChessBoard();
         jLabelCemeteryWhite = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -79,11 +82,21 @@ public class GameInterface extends javax.swing.JFrame {
 
         Quit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/error.png"))); // NOI18N
         Quit.setText("Retirarse");
+        Quit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                QuitActionPerformed(evt);
+            }
+        });
 
         jButtonExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/exit.png"))); // NOI18N
         jButtonExit.setText("Salir");
+        jButtonExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExitActionPerformed(evt);
+            }
+        });
 
-        jLabelPlayerColor.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLabelPlayerColor.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabelPlayerColor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelPlayerColor.setText("White");
         jLabelPlayerColor.setAlignmentX(0.5F);
@@ -91,34 +104,45 @@ public class GameInterface extends javax.swing.JFrame {
         jLabelPlayerName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelPlayerName.setText("Player Name");
 
+        Save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/folder.png"))); // NOI18N
+        Save.setText("Guardar");
+        Save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonExit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Quit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelPlayerColor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-                    .addComponent(jLabelPlayerName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Quit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelPlayerColor, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                    .addComponent(jLabelPlayerName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Save, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelPlayerColor, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabelPlayerName)
+                .addComponent(jLabelPlayerColor, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelPlayerName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Save)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Quit)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonExit)
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 343, 265, -1));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 343, 265, 230));
 
         jLabelCemeteryBlack.setFont(new java.awt.Font("SansSerif", 0, 36)); // NOI18N
         jLabelCemeteryBlack.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -130,14 +154,14 @@ public class GameInterface extends javax.swing.JFrame {
         jPanelBoardContainer.setLayout(jPanelBoardContainerLayout);
         jPanelBoardContainerLayout.setHorizontalGroup(
             jPanelBoardContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 453, Short.MAX_VALUE)
+            .addGap(0, 450, Short.MAX_VALUE)
         );
         jPanelBoardContainerLayout.setVerticalGroup(
             jPanelBoardContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 453, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanelBoardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 67, -1, 453));
+        getContentPane().add(jPanelBoardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 67, 450, 453));
 
         jLabelCemeteryWhite.setFont(new java.awt.Font("SansSerif", 0, 36)); // NOI18N
         jLabelCemeteryWhite.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -146,8 +170,24 @@ public class GameInterface extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
+        saveBtn=true;
+    }//GEN-LAST:event_SaveActionPerformed
+
+    private void QuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitActionPerformed
+        quitBtn=true;
+    }//GEN-LAST:event_QuitActionPerformed
+
+    private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
+        this.setVisible(false);
+        this.dispose();
+        System.exit(0);
+    }//GEN-LAST:event_jButtonExitActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Quit;
+    private javax.swing.JButton Save;
     private javax.swing.JButton jButtonExit;
     private javax.swing.JLabel jLabelCemeteryBlack;
     private javax.swing.JLabel jLabelCemeteryWhite;
@@ -155,10 +195,11 @@ public class GameInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPlayerName;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private ui.ChessBoard jPanelBoardContainer= new ui.ChessBoard();
+    private javax.swing.JPanel jPanelBoardContainer;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextAreaHistory;
     // End of variables declaration//GEN-END:variables
+    
     private String pieceSwap(char piece){
         String str=new String();
         
@@ -193,8 +234,22 @@ public class GameInterface extends javax.swing.JFrame {
         jLabelCemeteryBlack.setText(str);
     }
 
-    public void updatePiecesPosition(Board board) {
-        jPanelBoardContainer.setCurrrentBoard(board);
+    void setCurrentPlayer(String name, String playerColor) {
+        jLabelPlayerColor.setText(playerColor);
+        jLabelPlayerName.setText(name);
     }
     
+    public boolean isPieceMoved() {
+        if(ChessBoard.movePerformed){
+            ChessBoard.movePerformed=false;//debounce
+            return true;
+        }else return false;
+    }
+    public boolean isSavePressed() {
+        return saveBtn;
+    }
+
+    public boolean isQuitPressed() {
+        return quitBtn;
+    }
 }

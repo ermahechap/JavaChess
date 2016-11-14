@@ -170,4 +170,8 @@ public class Chess {
         }while (flag);
     }    
     
+    public static Board retriveBoard(){//easy for GUI
+        return board;
+    }
+    
 }
