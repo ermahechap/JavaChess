@@ -27,7 +27,7 @@ public class GameInterface extends javax.swing.JFrame implements  MouseListener,
             SwingUtilities.updateComponentTreeUI(this);
             ImageIcon icon= new ImageIcon("/resources/gameIcon.png");
             this.setIconImage(icon.getImage());
-            
+            this.setLocationRelativeTo(null);
             this.setVisible(true);
             
             addMouseListener(this);
@@ -58,7 +58,7 @@ public class GameInterface extends javax.swing.JFrame implements  MouseListener,
         jLabelPlayerName = new javax.swing.JLabel();
         Save = new javax.swing.JButton();
         jLabelCemeteryBlack = new javax.swing.JLabel();
-        jPanelBoardContainer = new ui.ChessBoard();
+        
         jLabelCemeteryWhite = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -207,7 +207,7 @@ public class GameInterface extends javax.swing.JFrame implements  MouseListener,
     private javax.swing.JLabel jLabelPlayerName;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanelBoardContainer;
+    private ChessBoard jPanelBoardContainer=new ui.ChessBoard();
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextAreaHistory;
     // End of variables declaration//GEN-END:variables
@@ -318,6 +318,10 @@ public class GameInterface extends javax.swing.JFrame implements  MouseListener,
 
     @Override
     public void mouseMoved(MouseEvent e) {
+    }
+
+    void setBoard(Board board) {
+        jPanelBoardContainer.setCurrentBoard(board);
     }
     
 }

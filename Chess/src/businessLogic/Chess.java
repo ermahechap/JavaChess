@@ -11,8 +11,6 @@ import ui.UISwing;
 import ui.UIText;
 
 public class Chess {
-    private static Player player[]= new Player[2];
-    private static Board b;
     public static UI userUI;
     public static void main(String[] args) {
         setUserUI(args);
@@ -52,7 +50,7 @@ public class Chess {
         }while(flag);
     }
     
-    private static void saveGame(Board bo){
+    private static void saveGame(Board bo,Player player[]){
         String fileName=userUI.saveGameRequest();
         try {
             FileOutputStream fileOut= new FileOutputStream(fileName,false);
@@ -70,6 +68,7 @@ public class Chess {
     }
     
     private static void gameLoop(int sel){
+        Player player[] = new Player[2];
         Board board;
         if(sel==1){
             player=userUI.readPlayers();
@@ -93,11 +92,11 @@ public class Chess {
         }else{
             return;
         }
+        
         boolean flag=true;
         int opt;
         userUI.createBoardInterface();//Need it only in Swing
         do{
-            b=board;//need this to draw in swing later
             userUI.printCemetery(player[0],player[1]);
             userUI.printBoard(board);
             userUI.whosePlayer(player[ManagePlayerTurn.getTurn()]);
@@ -163,7 +162,7 @@ public class Chess {
                     userUI.showPlayHist(player);
                     break;
                 case 3:
-                    saveGame(board);
+                    saveGame(board,player);
                     break;
                 case 4:
                     userUI.onQuitGame(player[ManagePlayerTurn.getTurn()]); // the player who quits, looses
@@ -176,9 +175,4 @@ public class Chess {
             }
         }while (flag);
     }    
-    
-    public static Board retriveBoard(){//easy for GUI
-        return b;
-    }
-    
 }

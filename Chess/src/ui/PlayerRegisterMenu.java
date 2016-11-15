@@ -16,6 +16,7 @@ public class PlayerRegisterMenu extends javax.swing.JFrame {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.updateComponentTreeUI(this);
             ImageIcon icon= new ImageIcon("/resources/gameIcon.png");
+            this.setLocationRelativeTo(null);
             this.setIconImage(icon.getImage());
             this.pack();
             this.setVisible(true);

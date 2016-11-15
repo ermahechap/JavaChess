@@ -3,7 +3,7 @@ package data;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Piece implements Serializable,Cloneable{
+public abstract class Piece implements Serializable{
     private char pieceSign;//p=peon,t=torre,c=caballo.....a,r=reina,k=king(rey) - mayusc:Negras
     private boolean moved=false;//default, false
     private int dx[];

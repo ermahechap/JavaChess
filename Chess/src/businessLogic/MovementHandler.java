@@ -160,49 +160,19 @@ public class MovementHandler {
         return false;
     }
 
-    static public Object deepCopy(Object oldObj) throws Exception {
-        ObjectOutputStream oos = null;
-        ObjectInputStream ois = null;
-        try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream(); // A
-            oos = new ObjectOutputStream(bos); // B
-            // serialize and pass the object
-            oos.writeObject(oldObj);   // C
-            oos.flush();               // D
-            ByteArrayInputStream bin= new ByteArrayInputStream(bos.toByteArray()); // E
-            ois = new ObjectInputStream(bin);                  // F
-            // return the new object
-            return ois.readObject(); // G
-        } catch (Exception e) {
-            System.out.println("Exception in ObjectCloner = " + e);
-            throw (e);
-        } finally {
-            oos.close();
-            ois.close();
-        }
-    }
-
     protected static boolean isCheckRemovable(Board board, Player[] player, int whichPlayer) {
         //capture piece, block piece - OK
-        
-        //copy board, avoid rewriting
-        Board copyBoard=new Board(new Player("no need", true),new Player("no need", true));//just in case, not really needed
-        try {
-            copyBoard = (Board)deepCopy(board);
-        } catch (Exception ex) {
-            Logger.getLogger(MovementHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-        ArrayList<int[]> pathSearch = copyBoard.getGameBoard()[pieceCheckCoord[0]][pieceCheckCoord[1]].getPiece().getLastMovePath();
+        ArrayList<int[]> pathSearch = board.getGameBoard()[pieceCheckCoord[0]][pieceCheckCoord[1]].getPiece().getLastMovePath();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (copyBoard.getGameBoard()[i][j].getPiece() == null) {
+                if (board.getGameBoard()[i][j].getPiece() == null) {
                     continue;
                 }
                 int coord[] = {i, j};
                 for (int k = 0; k < pathSearch.size(); k++) {
-                    if (isValidMove(copyBoard, coord, pathSearch.get(k), whichPlayer)) {
-                        Object st[] = performMove(copyBoard, player, coord, pathSearch.get(k));//from ij to the piece is making check
+                    if (isValidMove(board, coord, pathSearch.get(k), whichPlayer)) {
+                        Object st[] = performMove(board, player, coord, pathSearch.get(k));//from ij to the piece is making check
                         Board provisionalBoard = (Board) st[0];
                         if (!isCheck(provisionalBoard, player, whichPlayer)) {
                             return true;
@@ -215,7 +185,7 @@ public class MovementHandler {
         //move king
         int mx[] = {-1, 0, 1, 0, -1, 1, 1, -1};//rows
         int my[] = {0, 1, 0, -1, 1, 1, -1, -1};//cols
-        int kingpos[] = getKingXY(copyBoard, player, whichPlayer);
+        int kingpos[] = getKingXY(board, player, whichPlayer);
         for (int i = 0; i < 8; i++) {
             int advance[] = {kingpos[0] + mx[i], kingpos[1] + my[i]};
             if (kingpos[0] + mx[i] < 0 || kingpos[0] + mx[i] > 7) {
@@ -224,8 +194,8 @@ public class MovementHandler {
             if (kingpos[1] + my[i] < 0 || kingpos[1] + my[i] > 7) {
                 continue;
             }
-            if (isValidMove(copyBoard, kingpos, advance, whichPlayer)) {
-                Object st[] = performMove(copyBoard, player, kingpos, advance);
+            if (isValidMove(board, kingpos, advance, whichPlayer)) {
+                Object st[] = performMove(board, player, kingpos, advance);
                 Board provisionalBoard = (Board) st[0];
                 if (!isCheck(provisionalBoard, player, whichPlayer)) {
                     return true;

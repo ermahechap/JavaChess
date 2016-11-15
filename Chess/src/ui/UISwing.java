@@ -41,6 +41,7 @@ public class UISwing extends javax.swing.JFrame implements UI {
             SwingUtilities.updateComponentTreeUI(this);
             ImageIcon icon = new ImageIcon("/resources/gameIcon.png");
             this.setIconImage(icon.getImage());
+            this.setLocationRelativeTo(null);
             this.pack();
             this.setVisible(true);
         } catch (ClassNotFoundException ex) {
@@ -257,7 +258,8 @@ public class UISwing extends javax.swing.JFrame implements UI {
 
     @Override
     public void printBoard(Board board) {
-        //nothing to do here :vvvv
+        game.setBoard(board);
+        game.repaint();
     }
 
     @Override

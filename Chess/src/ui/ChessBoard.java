@@ -22,6 +22,7 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
     private int ax,ay;
     public int mouseX=0,mouseY=0,newMouseX,newMouseY;
     public static ArrayList<ArrayList<Integer>>coordMoved=new ArrayList<>();
+    private Board currentBoard;
     
     public ChessBoard() {
         initComponents();
@@ -90,7 +91,6 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
             }
         }
         
-        Board currentBoard=Chess.retriveBoard();
         if(currentBoard!=null){
             Square[][] gameBoard = currentBoard.getGameBoard();
             for(int i=0;i<8;i++){
@@ -176,4 +176,7 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
     public void mouseMoved(MouseEvent e) {
     }
     
+    public void setCurrentBoard(Board board){
+        this.currentBoard=board;
+    }
 }
