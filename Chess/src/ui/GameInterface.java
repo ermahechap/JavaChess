@@ -28,12 +28,12 @@ public class GameInterface extends javax.swing.JFrame implements  MouseListener,
             ImageIcon icon= new ImageIcon("/resources/gameIcon.png");
             this.setIconImage(icon.getImage());
             this.setLocationRelativeTo(null);
-            this.setVisible(true);
             
             addMouseListener(this);
             addMouseMotionListener(this);
             
             this.pack();
+            this.setVisible(true);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UISwing.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
