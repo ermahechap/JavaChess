@@ -3,6 +3,7 @@ package businessLogic;
 import data.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -84,7 +85,7 @@ public class Chess {
                 board=(Board)os.readObject();
                 os.close();
                 userUI.onLoadSuceed();
-            } catch (Exception e) {
+            } catch (IOException | ClassNotFoundException e) {
                 userUI.onLoadFailure();
                 player=userUI.readPlayers();//new game on default
                 board = new Board(player[0], player[1]);
