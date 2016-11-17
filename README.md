@@ -4,8 +4,6 @@ Java Chess!
 Created by:
 
  - Edwin Mahecha.
- - Obed Espinosa.
- - Nelson Cruz.
 
 ----------
 Requires Java 8 or Later.
